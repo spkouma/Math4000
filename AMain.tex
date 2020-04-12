@@ -331,6 +331,13 @@ $$
 \noindent 
 %Where $V_m$ is the total capacity of the surface, 
 We let $n_{surf}$ be the total available surface sites. Given the above, we define the number of adsorbed sites in loop per chain (on average) as,
+[***NM: \textit{The wording is wrong.  The sites in
+the loops are not ``adsorbed''.  It seems better to 
+describe $n_{lp}$ as the number of sites in all loops 
+in one chain (on average).  Also, from the viewpoint
+of explaining your reasoning, would it be better 
+to put your formula for $n_{ads}$ before this
+formula?}***]
 
 \begin{equation}
 	\boxed{\bar{n}_{lp}=r-\frac{n_{surf}}{n_a}}
@@ -338,7 +345,11 @@ We let $n_{surf}$ be the total available surface sites. Given the above, we defi
 \end{equation}
 
 
-\noindent If we fix loop size $s_{lp}$, then there exist, $n_{lp}$ number of loops. Therefore, the number of loops is calculated through,
+\noindent If we fix loop size $s_{lp}$, then there exist, $n_{lp}$ number of loops  [***NM: 
+\textit{this is an awkward sentence.  What are 
+you trying to say?}***]. 
+Therefore, the number of loops [***NM: \textit{per 
+chain}***] is calculated through,
 
 
 \begin{equation}
@@ -374,10 +385,14 @@ We let $n_{surf}$ be the total available surface sites. Given the above, we defi
 
 
 
-\noindent loops per chain.\\\\
+\noindent loops per chain.   [***NM:  \textit{Delete these three words?}***] \\\\
 
 
-\noindent Relation \ref{nonRev} is a treatment that essentially "places" the polymers in a dense packing environment and thus each additional chain placement further restricts the configurations for the successive "placements". 
+\noindent Relation \ref{nonRev} is a treatment that essentially "places" the polymers in a dense
+[***NM:  \textit{it is not specific to ``dense''
+situations; indeed, it is better in the less dense 
+situation}***]
+packing environment and thus each additional chain placement further restricts the configurations for the successive "placements". 
 
 \begin{equation}
 	\text{non reversing walks:  } q(q-1)^{(\#steps-1)}
@@ -393,9 +408,13 @@ We let $n_{surf}$ be the total available surface sites. Given the above, we defi
 \end{equation}
 
 
-\noindent Here $\mu_i$ and $A_i$ depend on the choice of lattice\cite{Chen2002,Madras2013}.\\\\
+\noindent Here $\mu_i$ and $A_i$ depend on the choice of lattice\cite{Chen2002,Madras2013}.
+[***NM: \textit{mention that $i$ refers to the dimension of the lattice, and could be 2 or 3 in our work.}***]\\\\
 
-\noindent So for one chain  $\binom{n_{ads}}{n_{lp}}$ we want to see where the looping will take place. We have devised a treatment such that the loops will always be atop two adsorbed mers, and it can be observed in Figure 2b, that the looping is in Loop Choice 2, as per the nomenclature of Figure 2c.
+\noindent So for one chain  $\binom{n_{ads}}{n_{lp}}$ 
+[***NM:  \textit{why does a binomial coefficient
+appear in the middle of this sentence?}***]
+we want to see where the looping will take place. We have devised a treatment such that the loops will always be atop two adsorbed mers, and it can be observed in Figure 2b, that the looping is in Loop Choice 2, as per the nomenclature of Figure 2c.
 
 \begin{figure}[h!]
 	\centering
@@ -435,7 +454,8 @@ We let $n_{surf}$ be the total available surface sites. Given the above, we defi
 		\caption{visualization of the binomial coefficient of chain}
 		\label{loop and train}		
 	\end{subfigure}
-\caption{Scenario with an arbitrary $n_{lp}$}
+\caption{Scenario with an arbitrary $n_{lp}$
+[**NM: \textit{Delete third green arch}***]}
 \end{figure}
 
 
@@ -444,6 +464,9 @@ We let $n_{surf}$ be the total available surface sites. Given the above, we defi
 
 %explain sourcing of this...
 \noindent So we get for 2D,
+[***NM:  \textit{Explain what $q_{2,ch}$ is:  it is
+the number of ways to lay one chain on the
+surface, for a given starting point}***]
 \begin{equation}
 	q_{2,ch}\approx \left(A_2\cdot (\mu_{2})^{n_{ads}} \cdot \binom{n_{ads}}{n_{lp}} \right). 
 	\label{eq. q2}
@@ -479,6 +502,12 @@ and we neglect the energetic factor as well as the interactions, that were incor
 \end{equation}
 
 \noindent And,
+[***NM: \textit{I thnk that the term $n!$ in $Q$ is
+there because $Q$ is counting the number of 
+configurations of $n$ LABELLED chains, i.e.\ all
+formally distinct from each other, even though
+they are identical.  You should eventually 
+explain why the whole expression for $Q$ is what it is}***]
 \begin{equation}
 	n_{surf}=n_{ads}\cdotp n_{a}
 	\label{nsurf}
@@ -586,18 +615,23 @@ and we neglect the energetic factor as well as the interactions, that were incor
 	\label{Qwithnsurf}
 \end{equation}
 
-\noindent Substituting \ref{nlp} and \ref{nads} into \ref{eq. Qab} with $s_{lp}=1$
+\noindent Substituting \ref{nlp} and \ref{nads} into \ref{eq. Qab}[***NM:  \textit{Is this the right
+equation number?}] with $s_{lp}=1$
 
 \begin{equation}
 	Q(n_a,n_b)=\myQ{n_a}{n_b}{\nads{n_a}}{(\nlp{n_a})}
 	\label{eq. Qab}
 \end{equation}
+[***NM:  \textit{In your expression myQ, which 
+appears in (\ref{eq. Qab}) and 
+(\ref{eq. Qratio2}), the rightmost term should have
+$n_{vol}$ instead of $n_{surf}$}***]
 
 
 \noindent Comparing $Q(n_a+1,n_b-1)$ and $Q(n_a,n_b)$, %\footnote{Given a fixed chain length, we have $s_{tr}$ is dependant on $s_{lp}$. So we use he notation of $q_{tr}(s_{lp})$ instead of the one provided by Fleer, that is dependant on the length of the trains.} %\footnote{Assuming that given the root of $n_a$ and that $n_b=n-n_a$, they all approximately cancel out}
 
 \begin{equation}
-	\frac{Q(n_a+1,n_b-1)}{Q(n_a,n)}=
+	\frac{Q(n_a+1,n_b-1)}{Q(n_a,n_b)}=
 	\frac{
 		\myQ{(n_a+1)}{n_b-1}{\nads{n_a+1}}{(\nlp{n_a+1})}
 	}{
@@ -615,7 +649,10 @@ and we neglect the energetic factor as well as the interactions, that were incor
 %	\label{eq. Qratiocancel}
 %\end{equation}
 \text{}\\
-\noindent Simplifications lead to the following function of $n_a,n_b$
+\noindent 
+[***NM: \textit{say that you define $f(n_a,n_b)$ to 
+be $Q(n_a+1,n_b-1)/Q(n_a,n_b)$}***]
+Simplifications lead to the following function of $n_a,n_b$
 
 %\begin{equation}
 %	f(n_a,n_b)=\,
@@ -757,6 +794,23 @@ A_3
 \right)
 \label{fnanb}
 \end{equation}
+[***NM:  \textit{The above expression for $f$ has several errors.  First, $A_3$ should be $1/A_3$. 
+Second, $\mu_3$ should be raised to the power 
+$r$.   Finally, you did too much cancellation in the 
+big ratio of factorials.  In (\ref{eq. Qratio2}),
+you have (big fraction 1)$^{n_a+1}$/(big fraction 2)$^{n_a}$.  You seem to have just cancelled the 
+$()^{n_b}$ terms to be left with (big fraction 1)$^1$. However, (big fraction 1) is different from (big 
+fraction 2). So they don't simply cancel.  Here is a
+way to deal with these big fractions.  Define 
+\[ g(m)=  \left( \frac{
+\left(\frac{n_{surf}}{m}\right)!}{ 
+\left(r-\frac{n_{surf}}{m}\right)! 
+\left(2\frac{n_{surf}}{m}-r\right)!}
+\right)^m  
+\]
+Then you can use the Stirling approximation to get a 
+simpler expression for $\log g(m)$.}***]
+
 
 \text{}\\
 \noindent Taking the logarithm of the above function,
