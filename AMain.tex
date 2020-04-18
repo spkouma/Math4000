@@ -10,12 +10,127 @@
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 %
-%\newcommand{\species}[1]{\textit{#1} sp.}
-\newcommand{\nads}[1]{\ensuremath{\frac{n_{surf}}{#1}}}
-%I didn't include slp as it's 1, come back to this later
-\newcommand{\nlp}[1]{\ensuremath{r-\nads{#1}}}
-\newcommand{\stirl}[1]{\ensuremath{\left\{\left(#1\right)\cdotp log\left[\left(#1\right)\right]-\left(#1\right)\right\}}}
-\newcommand{\myQ}[4]{
+% \newcommand{\species}[1]{\textit{#1} sp.}
+\newcommand{\nads}[1]{
+    \ensuremath{
+        \frac{
+            n_{surf}
+        }{
+            #1
+        }
+    }
+}
+%
+\newcommand{\nlp}[1]{
+    \ensuremath{
+        r
+        -
+        \nads{#1}
+    }
+}
+%
+\newcommand{\stirl}[1]{
+    \ensuremath{
+        \left(
+            #1
+        \right)
+        \cdotp 
+        log
+        \left[
+            \left(
+            #1
+            \right)
+        \right]
+        -
+        \left(
+            #1
+        \right)
+    }
+}
+%
+\newcommand{\stirlBraces}[1]{
+    \ensuremath{
+        \left\{
+            \left(
+                #1
+            \right)
+            \cdotp 
+            log
+            \left[
+            \left(
+                #1
+            \right)
+            \right]
+            -
+            \left(
+                #1
+            \right)
+        \right\}
+    }
+}
+%
+\newcommand{\logOFgOFm}[1]{
+	\ensuremath{
+	#1
+	\cdot
+	\left\{
+    	log
+    	\left[
+    	    \left(
+    	        \nads{#1}
+    	    \right)!
+    	\right]
+    	-
+    	log
+    	\left[
+        	\left(
+        	    \nlp{#1}
+        	\right)!
+    	\right]
+    	-
+    	log
+    	\left[
+    	    \left(
+        	    2
+        	    \cdot
+        	    \nads{#1}
+        	    -
+        	    r
+            \right)!
+    	\right]
+	\right\}
+	}
+}
+%
+%
+\newcommand{\StirlOFgOFm}[1]{
+	\ensuremath{
+	#1
+	\cdot
+	\left\{
+    	stirl
+    	\left[
+    	        \nads{#1}
+    	\right]
+    	-
+    	stirl
+    	\left[
+        	    \nlp{#1}
+    	\right]
+    	-
+    	stirl
+    	\left[
+        	    2
+        	    \cdot
+        	    \nads{#1}
+        	    -
+        	    r
+    	\right]
+	\right\}
+	}
+}
+%
+\newcommand{\myQ}[5]{
 	\ensuremath{	
 %		Q
 %		\left(#1,#2 \right)=
@@ -27,203 +142,40 @@
 		\cdot 
 		\mu_{2}^{n_{surf}} 
 		\cdot 
-		\left(
-		\frac{(#3)!}{(#4)!(#3-#4)!}
-		\right)^{#1}
+		#5
 		\cdot
-		\frac{n_{surf}^{#1}}{#1!}
+		\frac{
+		        n_{surf}^{#1}
+		    }{
+		        #1!
+		    }
 		\cdot
 		\left(
-		A_3
+		    A_3
 		\right)^{#2}
 		\cdot 
 		\left(
-		\mu_{3}
+		    \mu_{3}
 		\right)^{r\cdotp #2}
 		\cdot
 		\frac{
-			n_{surf}^{#2}
+			n_{vol}^{#2}
 		}{
 			#2!
 		}
-		\right)}}
-	\newcommand{\myQcancel}[4]{
-		\ensuremath{	
-			%		Q
-			%		\left(#1,#2 \right)=
-			\cancel{n!}
-			\cdot
-			\left(
-			\left(
-			A_2
-			\right)^{~~\cancel{#1}}
-			\cdot 
-			\cancel{\mu_{2}^{n_{surf}}}
-			\cdot 
-			\left(
-			\frac{\cancel{(#3)!}}{\cancel{(#4)!}\cancel{(#3-#4)!}}
-			\right)^{~~\cancel{#1}}
-			\cdot
-			\frac{n_{surf}^{~~\cancel{#1}}}{\cancel{#1!}}
-			\cdot
-			\left(
-			A_3
-			\right)^{~~\cancel{#2}}
-			\cdot 
-			\left(
-			\mu_{3}
-			\right)^{~~\cancel{r\cdotp #2}}
-			\cdot
-			\frac{
-				n_{vol}^{~~\cancel{#2}}
-			}{
-				\cancel{#2!}
-			}
-			\right)}}
-%	
+		\right)
+		}
+}
 %
-\newcommand{\AlgoFunc}{
-	\ensuremath{
-		log
-		\left[
-		A_2
-		\right]
-		+
-		stirl\left[
-		\frac{
-			n_{surf}
-		}{
-			n_a+1				
-		}
-		\right]
-		-
-		stirl\left[
-		r-
-		\frac{
-			n_{surf}
-		}{
-			n_a+1				
-		}
-		\right]
-		-
-		stirl\left[
-		\left(
-		\frac{
-			n_{surf}
-		}{
-			n_a+1				
-		}
-		\right)
-		-
-		\left(
-		r-
-		\frac{
-			n_{surf}
-		}{
-			n_a+1				
-		}
-		\right)
-		\right]
-		+
-		log
-		\left[
-		n_{surf}
-		\right]
-		-
-		log
-		\left[
-		n_a+1
-		\right]
-		-
-		log
-		\left[
-		\mu_{3}
-		\right]
-		+
-		log
-		\left[
-		A_3
-		\right]
-		+
-		log
-		\left[
-		n_{b}
-		\right]
-		-
-		log
-		\left[
-		n_{vol}	
-		\right]
-	}
+%
+\newcommand{\gOFm}[2]{
+\left( \frac{
+\left(\frac{#2}{#1}\right)!}{ 
+\left(r-\frac{#2}{#1}\right)! 
+\left(2\frac{#2}{#1}-r\right)!}
+\right)^{#1}  
 }
-\newcommand{\AlgoFuncMult}{
-	\ensuremath{
-		log
-		\left[
-		A_2
-		\right]
-		+
-		stirl\left[
-		\frac{
-			n_{surf}
-		}{
-			n_a+1				
-		}
-		\right]
-		-
-		stirl\left[
-		r-
-		\frac{
-			n_{surf}
-		}{
-			n_a+1				
-		}
-		\right]
-		-
-		stirl\left[
-		2
-		\left(
-		\frac{
-			n_{surf}
-		}{
-			n_a+1				
-		}
-		\right)	
-		-
-		r
-		\right]\\
-		+
-		log
-		\left[
-		n_{surf}
-		\right]
-		-
-		log
-		\left[
-		n_a+1
-		\right]
-		-
-		log
-		\left[
-		\mu_{3}
-		\right]
-		+
-		log
-		\left[
-		A_3
-		\right]
-		+
-		log
-		\left[
-		n_{b}
-		\right]
-		-
-		log
-		\left[
-		n_{vol}	
-		\right]
-	}
-}
+
 \usepackage{subcaption}
 \usepackage{cancel}
 %\usepackage[superscript]{cite}
@@ -289,71 +241,59 @@ We proceed with a hybrid of Fleer \cite{fleer1993polymers} and of our very own L
 
 \noindent We begin by establishing a formalisation of the model in describing the notational framework. The setup is that of multiple adsorbed chains of same length. Assume  number of adsorbed sites is same for each chain, and we don't have clustering effects [check].\\
 
-\noindent We define the following quantities,\\\\
+\noindent We adopt the following notation from Fleer \cite{fleer1993polymers},\\\\
+
+\begin{tabular}{r|l}
+\hline
+\textbf{r:} & is number of segments per chain,\\
+\textbf{s:} & is the number of segments \\ 
+$\mathbf{s_{lp}:}$ &is the (fixed) length of loops on an adsorbed chain.\\
+$\mathbf{n_{lp}:}$ &is the number of loops, on the adsorbed chain.\\
+$\mathbf{n_a:}$ &number of adsorbed chains\\
+$\mathbf{n_b:}$&number of chains in solution\\
+$\mathbf{q_{ch}}$&partition function of one adsorbed chain,\\
+\hline
+\end{tabular}\\\\ 
+% \footnotetext{We ignore the effects of mixing and interaction in our approximation}
+
+\noindent We proceed to define the below notation,
 
 $$
-\left. %this is a delimiter
-\begin{array}{ll}
-\text{Number of sites to be covered in surface:} & n_{surf}\footnotemark\\
-\text{Length of each chain:}& r\\
-\end{array}
-\right\}
-\rightarrow\text{FIXED}
-%\footnotetext{The difference between $n_{surf}$ and $V_m$, is that $V_m$ is a fixed quantity denoting the total sites on the surface, whereas $n_{surf}$ is the space that will be covered, including the case of fractional coverage of $V_m$.  One can intuitively think of $n_{surf}$ as the total capacity of the surface, or the maximum permitted by the user of the computation.}
+\boxed{
+    \left. %this is a delimiter
+        \begin{array}{ll}
+            \text{Number of sites to be covered in surface:} & n_{surf}\\
+            \text{Length of each chain:}& r\\
+        \end{array}
+    \right\}
+    \rightarrow\text{FIXED}
+}
 $$
-\text{}\\
 
-%======================================================================================================
-%\noindent We let, $(n_{lp})_{i}=$ be ith number of loops in i$^{th}$ chain, so number of sites in loops for all chains is 
-%
-%$$ \boxed{n_a \cdot r=\sum_{i}(n_{lp})_{i} \cdot s_{lp}} ~~~~\Rightarrow~~~ \boxed{\sum_{i}(n_{lp})_{i}=\frac{n_a \cdot r}{s_{lp}}}$$
-%\text{}\\\\
-%
-%\noindent The number of ways to choose one endpoint of each chain is,
-%
-%$$\binom{n_{surf}}{n_{a}}$$
-%======================================================================================================
-
-%\noindent Given, number of adsorbed chains: $n_a$; available sites on surface: $V_m$; length of polymer chain: $r$; length of loops (fixed): $s_{lp}$, we have, [Number of surface sites]/[Number of adsorbed chains].
-	 
-%\begin{equation}
-%	\boxed{n_{m,ads}:=\frac{V_m}{n_a}}
-%	\label{n_mads}
-%\end{equation}
-%
-%\noindent Therefore the Number of sites in loops is,
-%\begin{equation}
-%	\boxed{n_{m,lp}:=r-\frac{V_m}{n_a}}
-%	\label{n_mlp}
-%\end{equation}
-
-
-\noindent 
-%Where $V_m$ is the total capacity of the surface, 
-We let $n_{surf}$ be the total available surface sites. Given the above, we define the number of adsorbed sites in loop per chain (on average) as,
-[***NM: \textit{The wording is wrong.  The sites in
-the loops are not ``adsorbed''.  It seems better to 
-describe $n_{lp}$ as the number of sites in all loops 
-in one chain (on average).  Also, from the viewpoint
-of explaining your reasoning, would it be better 
-to put your formula for $n_{ads}$ before this
-formula?}***]
+\noindent We let $n_{surf}$ be the total available surface sites.
 
 \begin{equation}
-	\boxed{\bar{n}_{lp}=r-\frac{n_{surf}}{n_a}}
+	\boxed{n_{surf}=n_{ads}\cdotp n_{a}}
+	\label{nsurf}
+\end{equation}
+
+
+
+\noindent Let $n_{lp}$ be the number of sites in all loops 
+in one chain (on average).
+
+\begin{equation}
+	\boxed{\bar{n}_{lp}:=r-\frac{n_{surf}}{n_a}}
 	\label{mean nlp}
 \end{equation}
 
 
-\noindent If we fix loop size $s_{lp}$, then there exist, $n_{lp}$ number of loops  [***NM: 
-\textit{this is an awkward sentence.  What are 
-you trying to say?}***]. 
-Therefore, the number of loops [***NM: \textit{per 
-chain}***] is calculated through,
+\noindent The number of loops per 
+chain is calculated through,
 
 
 \begin{equation}
-	\boxed{n_{lp,fixed}:= \frac{r-\frac{n_{surf}}{n_a}}{s_{lp}}}
+	\boxed{n_{lp}:= \frac{r-\frac{n_{surf}}{n_a}}{s_{lp}}}
 	\label{nlp,Gen}
 \end{equation}
 
@@ -385,7 +325,7 @@ chain}***] is calculated through,
 
 
 
-\noindent loops per chain.   [***NM:  \textit{Delete these three words?}***] \\\\
+% \noindent loops per chain.   [***NM:  \textit{Delete these three words?}***] \\\\
 
 
 \noindent Relation \ref{nonRev} is a treatment that essentially "places" the polymers in a dense
@@ -395,26 +335,25 @@ situation}***]
 packing environment and thus each additional chain placement further restricts the configurations for the successive "placements". 
 
 \begin{equation}
-	\text{non reversing walks:  } q(q-1)^{(\#steps-1)}
+    \boxed{
+	    \text{non reversing walks:  } q(q-1)^{(\#steps-1)}
+	 }
 	\label{nonRev}
 \end{equation}
 
-\newpage
 \noindent Relation \ref{selfAv} is a treatment that essentially "places" the polymers in a sparse packing environment and thus each additional chain placement has no effect on the available configurations for the succesive "placements".
 
 \begin{equation}
-	\text{self avoiding walks:  } \approx A_i\cdot\mu_i^{(\#steps)}.
+    \boxed{
+	    \text{self avoiding walks:  } \approx A_i\cdot\mu_i^{(\#steps)}.
+    }
 	\label{selfAv}
 \end{equation}
 
 
-\noindent Here $\mu_i$ and $A_i$ depend on the choice of lattice\cite{Chen2002,Madras2013}.
-[***NM: \textit{mention that $i$ refers to the dimension of the lattice, and could be 2 or 3 in our work.}***]\\\\
+\noindent Here $\mu_i$ and $A_i$ depend on the choice of lattice\cite{Chen2002,Madras2013}. where $i$ refers to the dimension of the lattice, which in the analysis below will be focused on 2 and 3 dimensions.\\\\
 
-\noindent So for one chain  $\binom{n_{ads}}{n_{lp}}$ 
-[***NM:  \textit{why does a binomial coefficient
-appear in the middle of this sentence?}***]
-we want to see where the looping will take place. We have devised a treatment such that the loops will always be atop two adsorbed mers, and it can be observed in Figure 2b, that the looping is in Loop Choice 2, as per the nomenclature of Figure 2c.
+\noindent So for one chain we want to see where the looping will take place. We have devised a treatment such that the loops will always be atop two adsorbed mers, and it can be observed in Figure 2b, that the looping is in Loop Choice 2, as per the nomenclature of Figure 2c.
 
 \begin{figure}[h!]
 	\centering
@@ -450,25 +389,25 @@ we want to see where the looping will take place. We have devised a treatment su
 	\end{subfigure}~~
 	\begin{subfigure}[b]{0.6\textwidth}
 		\centering
-		\includegraphics[scale=0.6]{looping.png}
+		\includegraphics[scale=0.3]{LoopingGraphic.png}
 		\caption{visualization of the binomial coefficient of chain}
 		\label{loop and train}		
 	\end{subfigure}
-\caption{Scenario with an arbitrary $n_{lp}$
-[**NM: \textit{Delete third green arch}***]}
+\caption{Scenario with an arbitrary $n_{lp}$}
 \end{figure}
 
 
 
 \noindent We Proceed with \ref{selfAv} and multiply this with the number of ways to lay down each chain, which yields the following general relations and 2D and 3D respectively.\\ 
 
-%explain sourcing of this...
-\noindent So we get for 2D,
-[***NM:  \textit{Explain what $q_{2,ch}$ is:  it is
-the number of ways to lay one chain on the
-surface, for a given starting point}***]
+
+\noindent So we get for 2D, we have $q_{2,ch}$ which is
+the number of ways to lay one chain on the surface, for a given starting point.
+
 \begin{equation}
-	q_{2,ch}\approx \left(A_2\cdot (\mu_{2})^{n_{ads}} \cdot \binom{n_{ads}}{n_{lp}} \right). 
+    \boxed{
+    	q_{2,ch}\approx \left(A_2\cdot (\mu_{2})^{n_{ads}} \cdot \binom{n_{ads}}{n_{lp}} \right). 
+    }
 	\label{eq. q2}
 \end{equation}
 
@@ -477,7 +416,9 @@ surface, for a given starting point}***]
 
 %had put r-1 initially but then corrected as per statement from madras r x nb as opposed to ()r-1) x nb
 \begin{equation}
-	q_{3,ch}\approx \left(A_3\cdot (\mu_{3})^{r}\right).
+    \boxed{
+	    q_{3,ch}\approx \left(A_3\cdot (\mu_{3})^{r}\right).
+	}
 	\label{eq. q3}
 \end{equation}
 
@@ -502,16 +443,8 @@ and we neglect the energetic factor as well as the interactions, that were incor
 \end{equation}
 
 \noindent And,
-[***NM: \textit{I thnk that the term $n!$ in $Q$ is
-there because $Q$ is counting the number of 
-configurations of $n$ LABELLED chains, i.e.\ all
-formally distinct from each other, even though
-they are identical.  You should eventually 
-explain why the whole expression for $Q$ is what it is}***]
-\begin{equation}
-	n_{surf}=n_{ads}\cdotp n_{a}
-	\label{nsurf}
-\end{equation}
+%[***NM: \textit{I thnk that the term $n!$ in $Q$ is there because $Q$ is counting the number of configurations of $n$ LABELLED chains, i.e.\ all formally distinct from each other, even though they are identical. You should eventually explain why the whole expression for $Q$ is what it is}***]
+
 
 
 \begin{equation}
@@ -615,388 +548,325 @@ explain why the whole expression for $Q$ is what it is}***]
 	\label{Qwithnsurf}
 \end{equation}
 
-\noindent Substituting \ref{nlp} and \ref{nads} into \ref{eq. Qab}[***NM:  \textit{Is this the right
-equation number?}] with $s_{lp}=1$
+\newpage
+\noindent Substituting \ref{nlp} and \ref{nads} into \ref{Qwithnsurf}
+%
+%[***NM:  \textit{Is this the right equation number?}] 
+%
+with $s_{lp}=1$
 
 \begin{equation}
-	Q(n_a,n_b)=\myQ{n_a}{n_b}{\nads{n_a}}{(\nlp{n_a})}
+	Q(n_a,n_b)=\myQ{n_a}{n_b}{\nads{n_a}}{(\nlp{n_a})}{\gOFm{n_a}{n_{surf}}}
 	\label{eq. Qab}
 \end{equation}
-[***NM:  \textit{In your expression myQ, which 
-appears in (\ref{eq. Qab}) and 
-(\ref{eq. Qratio2}), the rightmost term should have
-$n_{vol}$ instead of $n_{surf}$}***]
 
-
-\noindent Comparing $Q(n_a+1,n_b-1)$ and $Q(n_a,n_b)$, %\footnote{Given a fixed chain length, we have $s_{tr}$ is dependant on $s_{lp}$. So we use he notation of $q_{tr}(s_{lp})$ instead of the one provided by Fleer, that is dependant on the length of the trains.} %\footnote{Assuming that given the root of $n_a$ and that $n_b=n-n_a$, they all approximately cancel out}
+\noindent We define relation \ref{gOFm}, for ease of symbolic manipulations.
 
 \begin{equation}
-	\frac{Q(n_a+1,n_b-1)}{Q(n_a,n_b)}=
+    \boxed{g(m):= \gOFm{m}{n_{surf}}}
+    \label{gOFm}
+\end{equation}
+
+
+\noindent Comparing $Q(n_a+1,n_b-1)$ and $Q(n_a,n_b)$ so we let,
+
+\begin{equation}
+    \boxed{f(n_a,n_b):=\frac{Q(n_a+1,n_b-1)}{Q(n_a,n_b)}}
+    \label{QfracDEF}
+\end{equation}
+
+
+\begin{equation}
+	f(n_a,n_b)=
 	\frac{
-		\myQ{(n_a+1)}{n_b-1}{\nads{n_a+1}}{(\nlp{n_a+1})}
+		\myQ{(n_a+1)}{n_b-1}{\nads{n_a+1}}{(\nlp{n_a+1})}{g(n_a+1)}
 	}{
-		\myQ{n_a}{n_b}{\nads{n_a}}{(\nlp{n_a})}
+		\myQ{n_a}{n_b}{\nads{n_a}}{(\nlp{n_a})}{g(n_a)}
 	}
 	\label{eq. Qratio2}
 \end{equation}
 
-%\begin{equation}
-%	\frac{
-%		\myQcancel{n_a+1}{n_b-1}{\nads{n_a+1}}{(\nlp{n_a+1})}
-%	}{
-%		\myQcancel{n_a}{n_b}{\nads{n_a}}{(\nlp{n_a})}
-%	}
-%	\label{eq. Qratiocancel}
-%\end{equation}
-\text{}\\
-\noindent 
-[***NM: \textit{say that you define $f(n_a,n_b)$ to 
-be $Q(n_a+1,n_b-1)/Q(n_a,n_b)$}***]
-Simplifications lead to the following function of $n_a,n_b$
 
-%\begin{equation}
-%	f(n_a,n_b)=\,
-%	\left(A_2\right)
-%	\cdotp
-%	\left(
-%		\frac{
-%			\left(
-%				\frac{
-%					n_{surf}
-%				}{
-%					n_a+1				
-%				}
-%			\right)!
-%		}{
-%			\left(
-%				r-
-%				\frac{
-%					n_{surf}
-%				}{
-%					n_a+1				
-%				}
-%			\right)!
-%			\left(
-%				\left(
-%					\frac{
-%						n_{surf}
-%					}{
-%						n_a+1				
-%					}
-%				\right)
-%				-
-%				\left(
-%					r-
-%					\frac{
-%						n_{surf}
-%					}{
-%						n_a+1				
-%					}
-%				\right)
-%			\right)!
-%			} 
-%	\right)
-%	\cdotp
-%	\left(
-%		\frac{
-%			n_{surf}
-%		}{
-%			n_a+1
-%		}
-%	\right)
-%	\cdotp
-%	\left(
-%		\frac{
-%			1
-%		}{
-%			\mu_{3}
-%		}
-%	\right)
-%	\cdot
-%	\left(
-%		A_3
-%	\right)
-%	\cdot
-%	\left(
-%		\frac{
-%			n_{b}
-%		}{
-%			n_{vol}	
-%		} 
-%	\right)
-%	\label{fnanb}
-%\end{equation}
+\text{}\\
+
+%  [***NM: \textit{say that you define $f(n_a,n_b)$ to be $Q(n_a+1,n_b-1)/Q(n_a,n_b)$}***]
+\noindent Simplifications lead to the following function of $n_a,n_b$
 
 
 \begin{equation}
 f(n_a,n_b)=\,
-\left(A_2\right)
-\cdotp
 \left(
-\frac{
-	\left(
-	\frac{
-		n_{surf}
-	}{
-		n_a+1				
-	}
-	\right)!
-}{
-	\left(
-	r-
-	\frac{
-		n_{surf}
-	}{
-		n_a+1				
-	}
-	\right)!
-	\left(
-	2
-		\left(
-			\frac{
-				n_{surf}
-			}{
-				n_a+1				
-			}
-		\right)	
-	-
-	r
-	\right)!
-} 
+    A_2
 \right)
 \cdotp
 \left(
-\frac{
-	n_{surf}
-}{
-	n_a+1
-}
+	\frac{
+		g(n_a+1)
+	}{
+		g(n_a)
+	}
 \right)
 \cdotp
 \left(
-\frac{
-	1
-}{
-	\mu_{3}
-}
+    \frac{
+    	n_{surf}
+    }{
+    	n_a+1
+    }
+\right)
+\cdotp
+\left(
+    \frac{
+    	1
+    }{
+    	\mu_{3}
+    }
+    \right)^r
+\cdot
+\left(
+    \frac{
+        1
+    }{
+        A_3
+    }
 \right)
 \cdot
 \left(
-A_3
-\right)
-\cdot
-\left(
-\frac{
-	n_{b}
-}{
-	n_{vol}	
-} 
+    \frac{
+    	n_{b}
+    }{
+    	n_{vol}	
+    } 
 \right)
 \label{fnanb}
 \end{equation}
-[***NM:  \textit{The above expression for $f$ has several errors.  First, $A_3$ should be $1/A_3$. 
-Second, $\mu_3$ should be raised to the power 
-$r$.   Finally, you did too much cancellation in the 
-big ratio of factorials.  In (\ref{eq. Qratio2}),
-you have (big fraction 1)$^{n_a+1}$/(big fraction 2)$^{n_a}$.  You seem to have just cancelled the 
-$()^{n_b}$ terms to be left with (big fraction 1)$^1$. However, (big fraction 1) is different from (big 
-fraction 2). So they don't simply cancel.  Here is a
-way to deal with these big fractions.  Define 
-\[ g(m)=  \left( \frac{
-\left(\frac{n_{surf}}{m}\right)!}{ 
-\left(r-\frac{n_{surf}}{m}\right)! 
-\left(2\frac{n_{surf}}{m}-r\right)!}
-\right)^m  
-\]
-Then you can use the Stirling approximation to get a 
-simpler expression for $\log g(m)$.}***]
+
+% [***NM:  \textit{The above expression for $f$ has several errors.  First, $A_3$ should be $1/A_3$. 
+% Second, $\mu_3$ should be raised to the power $r$.   
+% Finally, you did too much cancellation in the big ratio of factorials.  In (\ref{eq. Qratio2}),you have (big fraction 1)$^{n_a+1}$/(big fraction 2)$^{n_a}$.  You seem to have just cancelled the $()^{n_b}$ terms to be left with (big fraction 1)$^1$. However, (big fraction 1) is different from (big fraction 2). So they don't simply cancel.  Here is a way to deal with these big fractions.  
+% Define \[ g(m)=  \left( \frac{
+% \left(\frac{n_{surf}}{m}\right)!}{ 
+% \left(r-\frac{n_{surf}}{m}\right)! 
+% \left(2\frac{n_{surf}}{m}-r\right)!}
+% \right)^m  
+% \]
+% Then you can use the Stirling approximation to get a 
+% simpler expression for $\log g(m)$.}***]
 
 
 \text{}\\
-\noindent Taking the logarithm of the above function,
-%
-%\begin{multline}
-%log
-%\left[
-%f(n_a,n_b)
-%\right]=
-%log
-%\left[
-%A_2
-%\right]
-%+
-%log
-%\left[
-%	\frac{
-%		\left(
-%			r-
-%			\frac{
-%				n_{surf}
-%			}{
-%				n_a+1				
-%			}
-%		\right)!
-%}{
-%		\left(
-%			\frac{
-%				n_{surf}
-%			}{
-%				n_a+1				
-%			}
-%		\right)!
-%		\left(
-%			\left(
-%				r-
-%				\frac{
-%					n_{surf}
-%				}{
-%					n_a+1				
-%				}
-%			\right)
-%			-
-%			\left(
-%				\frac{
-%					n_{surf}
-%				}{
-%					n_a+1				
-%				}
-%			\right)
-%	\right)!
-%} 
-%\right]
-%..\\
-%..+
-%log
-%\left(
-%	\frac{
-%		n_{surf}
-%	}{
-%		n_a+1
-%	}
-%\right)
-%+
-%log
-%\left(
-%	\frac{
-%		1
-%	}{
-%		\mu_{3}
-%	}
-%\right)
-%+
-%log
-%\left(
-%A_3
-%\right)
-%+
-%log
-%\left(
-%	\frac{
-%		n_{b}
-%	}{
-%		n_{vol}	
-%	} 
-%\right)
-%\label{logfInit}
-%\end{multline}
-%
-and employing the stirling approximation method (rel. \ref{stirl}) for the logarithms of factorials.
+\noindent Taking the logarithm of the above function, and employing the stirling approximation method (rel. \ref{stirl}) for the logarithms of factorials. We get relation \ref{logf}
 
 \begin{equation}
-	stirl[x]=\stirl{x}
+	\boxed{stirl[x]:=\stirl{x}}
 	\label{stirl}
 \end{equation}
 
-\noindent and replacing the logarithmic factorials with the stirling approximation, and 
-%
-%\begin{multline}
-%	log
-%	\left[
-%	f(n_a,n_b)
-%	\right]=
-%	log
-%	\left[
-%	A_2
-%	\right]
-%	-
-%	stirl\left[
-%		\frac{
-%			n_{surf}
-%		}{
-%			n_a+1				
-%		}
-%		\right]
-%		+
-%		stirl\left[
-%		r-
-%		\frac{
-%			n_{surf}
-%		}{
-%			n_a+1				
-%		}
-%		\right]
-%		-
-%		stirl\left[
-%		\left(
-%		\frac{
-%			n_{surf}
-%		}{
-%			n_a+1				
-%		}
-%		\right)
-%		-
-%		\left(
-%		r-
-%		\frac{
-%			n_{surf}
-%		}{
-%			n_a+1				
-%		}
-%		\right)
-%		\right]..\\
-%	..+
-%	log
-%	\left[
-%		n_{surf}
-%	\right]
-%	-
-%	log
-%	\left[
-%		n_a+1
-%	\right]
-%	-
-%	log
-%	\left[
-%		\mu_{3}
-%	\right]
-%	+
-%	log
-%	\left[
-%		A_3
-%	\right]
-%	+
-%	log
-%	\left[
-%			n_{b}
-%	\right]
-%	-
-%	log
-%	\left[
-%		n_{vol}	
-%	\right]
-%	\label{logf}
-%\end{multline}
-%
-%\noindent expanding the stirling approximations into the braces below using relation \ref{stirl},
-%
+
 \begin{multline}
 	log
 	\left[
 	f(n_a,n_b)
 	\right]
 	=
-	\AlgoFuncMult
-	\label{logf}
+	log
+		\left[
+		A_2
+		\right]
+		+
+		log\left[
+            g(n_a+1)
+        \right]
+        -
+        log\left[
+            g(n_a)
+        \right]
+		+
+		log
+		\left[
+		n_{surf}
+		\right]
+		-
+		log
+		\left[
+		n_a+1
+		\right]\\
+		-
+		r
+		\cdot
+		log
+		\left[
+		\mu_{3}
+		\right]
+		-
+		log
+		\left[
+		A_3
+		\right]
+		+
+		log
+		\left[
+		n_{b}
+		\right]
+		-
+		log
+		\left[
+		n_{vol}	
+	\right]
+		\label{logf}
+\end{multline}
+
+
+\begin{multline}
+	log
+	\left[
+	f(n_a,n_b)
+	\right]
+	=
+	log
+		\left[
+		A_2
+		\right]
+		+
+		log\left[
+            \gOFm{n_a+1}{n_{surf}}
+        \right]
+        -
+        log\left[
+            \gOFm{n_a}{n_{surf}}
+        \right]\\
+		+
+		log
+		\left[
+		n_{surf}
+		\right]
+		-
+		log
+		\left[
+		n_a+1
+		\right]
+		-
+		r
+		\cdot
+		log
+		\left[
+		\mu_{3}
+		\right]
+		-
+		log
+		\left[
+		A_3
+		\right]
+		+
+		log
+		\left[
+		n_{b}
+		\right]
+		-
+		log
+		\left[
+		n_{vol}	
+	\right]
+		\label{logfexpnd1}
+\end{multline}
+
+
+\begin{multline}
+	log
+	\left[
+	    f(n_a,n_b)
+	\right]
+	=
+	log
+	\left[
+		A_2
+	\right]
+	+
+	\logOFgOFm{(n_a+1)}\\
+    -
+    \logOFgOFm{n_a}\\
+	+
+	log
+	\left[
+		n_{surf}
+	\right]
+		-
+		log
+		\left[
+		n_a+1
+		\right]
+		-
+		r
+		\cdot
+		log
+		\left[
+		\mu_{3}
+		\right]
+		-
+		log
+		\left[
+		A_3
+		\right]
+		+
+		log
+		\left[
+		n_{b}
+		\right]
+		-
+		log
+		\left[
+		n_{vol}	
+	\right]
+		\label{logfexpnd1}
+\end{multline}
+
+\begin{multline}
+	log
+	\left[
+	    f(n_a,n_b)
+	\right]
+	=
+	log
+	\left[
+		A_2
+	\right]
+	+
+	\StirlOFgOFm{(n_a+1)}\\
+    -
+    \StirlOFgOFm{n_a}\\
+	+
+	log
+	\left[
+		n_{surf}
+	\right]
+		-
+		log
+		\left[
+		n_a+1
+		\right]
+		-
+		r
+		\cdot
+		log
+		\left[
+		\mu_{3}
+		\right]
+		-
+		log
+		\left[
+		A_3
+		\right]
+		+
+		log
+		\left[
+		n_{b}
+		\right]
+		-
+		log
+		\left[
+		n_{vol}	
+	\right]
+		\label{stirlOFexpnd1}
 \end{multline}
 
 \newpage
@@ -1013,31 +883,31 @@ The algorithm created will leverage \ref{logf} as the expression for computing t
 % \end{figure}
 %=======================================================================================
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.85]{plotFigure_2.png}
-	\caption{Long Chain Length Looping Ratio Plot}
-	\label{Long}
-\end{figure}
+% \begin{figure}[h!]
+% 	\centering
+% 	\includegraphics[scale=0.85]{plotFigure_2.png}
+% 	\caption{Long Chain Length Looping Ratio Plot}
+% 	\label{Long}
+% \end{figure}
 
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.85]{plotFigure_3.png}
-	\caption{Arbitrary Chain Length Looping Ratio Plot}
-	\label{Arbitrary}
-\end{figure}
+% \begin{figure}[h!]
+% 	\centering
+% 	\includegraphics[scale=0.85]{plotFigure_3.png}
+% 	\caption{Arbitrary Chain Length Looping Ratio Plot}
+% 	\label{Arbitrary}
+% \end{figure}
 
 
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.85]{plotFigure_4.png}
-	\caption{Short Chain Length Looping Ratio Plot}
-	\label{Short}
-\end{figure}
+% \begin{figure}[h!]
+% 	\centering
+% 	\includegraphics[scale=0.85]{plotFigure_4.png}
+% 	\caption{Short Chain Length Looping Ratio Plot}
+% 	\label{Short}
+% \end{figure}
 
-\begin{algorithm}[h!]
+\begin{algorithm}[H]
 	\begin{algorithmic}
 		\State $res \gets [~]$
 		\State $reslog \gets [~]$
@@ -1059,14 +929,51 @@ The algorithm created will leverage \ref{logf} as the expression for computing t
 		\State $n_{vol} \gets \frac{n_{surf}}{3}$
 		\Comment{$n_{vol}$ arb selected size, say $n_surf$/3 or $n_surf$/10}
 		\State $n_L \gets 206$
-		\Comment{number chains in the system, assume $n_L >>a$ this is an arbitrary quantity}
-		\State $n_{vol} \gets 6.66*(10**9)$
-		\Comment{$n_{vol}$, arbitrarily set due to lack of volumetrics}\\
+		\Comment{number chains in the system, assume $n_L >>a$ this is an arbitrary quantity}\\
 		\Function{StirlingApprox}{$x$}\\
 		\Return \stirl{x}
 		\EndFunction\\
-		\Function{PartitionRatio}{$n_a,n_b$}\\
-		\Return $f(n_a,n_b)$
+		\Function{$logf$ }{$n_a,n_b$}\\
+		\Return $log
+        	\left[
+        		A_2
+        	\right]
+        	+
+        	\StirlOFgOFm{(n_a+1)}$\\
+            $~~~~~~~~~-
+            \StirlOFgOFm{n_a}
+        	+
+        	log
+        	\left[
+        		n_{surf}
+        	\right]
+        		-
+        		log
+        		\left[
+        		n_a+1
+        		\right]$\\
+        		$~~~~~~~~~-
+        		r
+        		\cdot
+        		log
+        		\left[
+        		\mu_{3}
+        		\right]
+        		-
+        		log
+        		\left[
+        		A_3
+        		\right]
+        		+
+        		log
+        		\left[
+        		n_{b}
+        		\right]
+        		-
+        		log
+        		\left[
+        		n_{vol}	
+        	\right]$
 		\EndFunction\\
 		\For{$j \in [n_0,~n_0+100\cdotp r]$}\\
 		\Call{PartitionRatio}{j,~n-j}
@@ -1074,8 +981,6 @@ The algorithm created will leverage \ref{logf} as the expression for computing t
 		\textbf{PRINT} Plot
 	\end{algorithmic}
 \end{algorithm}
-
-
 
 \newpage
 \subsection{Maximal Chains On Surface: Stopping Criterion}
