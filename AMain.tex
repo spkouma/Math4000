@@ -276,7 +276,10 @@ $$
 	\boxed{n_{surf}=n_{ads}\cdotp n_{a}}
 	\label{nsurf}
 \end{equation}
-
+[***  NM:  THE VARIABLE $n_{ads}$ USED ABOVE IS NOT 
+DEFINED UNTIL EQUATION (\ref{nads}) BELOW.  BRING
+THAT DEFINITION AND THAT EQUATION UP TO HERE;
+YOU USE (\ref{nads}) TO DERIVE EQUATION (\ref{mean nlp}). ***]
 
 
 \noindent Let $n_{lp}$ be the number of sites in all loops 
@@ -328,11 +331,12 @@ chain is calculated through,
 % \noindent loops per chain.   [***NM:  \textit{Delete these three words?}***] \\\\
 
 
-\noindent Relation \ref{nonRev} is a treatment that essentially "places" the polymers in a dense
-[***NM:  \textit{it is not specific to ``dense''
-situations; indeed, it is better in the less dense 
-situation}***]
-packing environment and thus each additional chain placement further restricts the configurations for the successive "placements". 
+\noindent Relation \ref{nonRev} is a treatment %that essentially "places" the polymers in a dense
+%[***NM:  \textit{it is not specific to ``dense''
+%situations; indeed, it is better in the less dense 
+%situation}***]
+% packing environment and thus 
+where each additional chain placement further restricts the configurations for the successive "placements". 
 
 \begin{equation}
     \boxed{
@@ -586,6 +590,10 @@ with $s_{lp}=1$
 	\label{eq. Qratio2}
 \end{equation}
 
+[*** NM:  IN THE NUMERATOR OF (\ref{eq. Qratio2}),
+THE POWER OF $\mu_3$ SHOULD BE $r(n_B-1)$ INSTEAD
+OF $r\cdot n_B-1$.  EQUATION (\ref{fnanb}) IS 
+CORRECT.***]
 
 \text{}\\
 
@@ -716,6 +724,7 @@ f(n_a,n_b)=\,
 		\label{logf}
 \end{multline}
 
+\noindent Expanding $g(n_a)$ and $g(n_a +1)$.
 
 \begin{multline}
 	log
@@ -770,6 +779,7 @@ f(n_a,n_b)=\,
 		\label{logfexpnd1}
 \end{multline}
 
+\noindent Expanding the logarithms of $g(n_a)$ and $g(n_a +1)$.
 
 \begin{multline}
 	log
@@ -820,6 +830,9 @@ f(n_a,n_b)=\,
 		\label{logfexpnd1}
 \end{multline}
 
+\newpage
+\noindent Using the stirling approximation on the logarithms of factorials.
+
 \begin{multline}
 	log
 	\left[
@@ -869,10 +882,10 @@ f(n_a,n_b)=\,
 		\label{stirlOFexpnd1}
 \end{multline}
 
-\newpage
+
 \subsection{Algorithm}
 
-The algorithm created will leverage \ref{logf} as the expression for computing the ratio of partitions.
+
 %=======================================================================================
 %%the figure has errors in the code so I am commenting it out until further notice
 % \begin{figure}[h!]
@@ -919,16 +932,15 @@ The algorithm created will leverage \ref{logf} as the expression for computing t
 		\Comment{Amplitude constant, https://polymerdatabase.com/polymer\%20physics/SAW.html}
 		\State $A_3 \gets 1.205$
 		\Comment{Amplitude constant, https://polymerdatabase.com/polymer\%20physics/SAW.html}
-		\State $n_{surf} \gets 143750$
+		\State $n_{surf} \gets 1437$
 		\Comment{number of 1mer sites on surface lattice (we assumed an aggregate surface area)} 			
 		\State $r \gets 229$
-		\Comment{number of single-mers in a large-mer, chain length "r", ie; 6200/27}
-		\State $n_0 \gets RoundToInteger(143750/r)$
+		\Comment{capacity of surface}
+		\State $n_0 \gets n_{surf}+220$
 		\State $n_a \gets n_0$
-		\Comment{Initialization of $n_a$ ie; $n_0$ full coverage no loops}
 		\State $n_{vol} \gets \frac{n_{surf}}{3}$
 		\Comment{$n_{vol}$ arb selected size, say $n_surf$/3 or $n_surf$/10}
-		\State $n_L \gets 206$
+		\State $n_L \gets 3 \times n_a$
 		\Comment{number chains in the system, assume $n_L >>a$ this is an arbitrary quantity}\\
 		\Function{StirlingApprox}{$x$}\\
 		\Return \stirl{x}
@@ -975,8 +987,8 @@ The algorithm created will leverage \ref{logf} as the expression for computing t
         		n_{vol}	
         	\right]$
 		\EndFunction\\
-		\For{$j \in [n_0,~n_0+100\cdotp r]$}\\
-		\Call{PartitionRatio}{j,~n-j}
+		\For{$j \in [n_0,~n_0+22]$}\\
+		$logf(j,n_b)$
 		\EndFor\\
 		\textbf{PRINT} Plot
 	\end{algorithmic}
