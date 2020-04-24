@@ -209,6 +209,7 @@
 \noindent \textcolor{red}{[background]}\\
 
 Motivation of this analysis is that of continuing down the pathway of devising an even more realistic model for the conformational modelling of polymer chains on a spheroid surface. \textcolor{red}{[more]}
+The previous model devised in (ref to LongShort) focuses on the behaviour given an ideal setup, where the chains are either completely binded or floating in solution.Goal of this extension is to enhance the model and incorporate loops into the model. We proceed to to do this modelling within a framework of solely entropic considerations, and thus of enumeration of choices given a certain number of loops.
 
 We first define the  terms trains, tails and loops, as this information will be vital in our analysis. Trains are the polymer segments that are adsorbed onto a surface, loops are the  desorbed segments separated by two trains while tails are the desorbed end segments. In the rest of report tails will not be considered. 
 
@@ -221,7 +222,7 @@ We first define the  terms trains, tails and loops, as this information will be 
 
 
 
-\section*{Modelling Setup}
+\section*{Modelling Setup and Approach}
 
 In this model we assume a fixed loop length and compare the cardinality of configuration sets of 3 different chain lengths individually. We will essentially be computing this cardinality for multiple scenarios of coverage from initial scenario being of full coverage with no loops. The consecutive scenarios being of adding additional chains to the surface,which is done iteratively for more and more chains adsorbed and thus more and more loops generated, all the way up to the scenario where there is zero (or minimal) existence of trains of more than 1 mer (this of course will largely depend on the number of mers per chain and if they can properly be broken up and the decision of the length of our fixed loop). We will finally compare the results of the three different chain lengths in terms of contribution based on cardinality of configurations with the consideration of loops. The ultimate goal is to compile a framework that then can be used, where one would sample multiple different loop lengths and have the model test each one individually and then combine the results. This method essentially teases out the complexity of Fleer's more universal approach, by means of a more iterative process, with simpler approximations, and thus better compatibility with a low-power computational environment.
 
@@ -244,12 +245,7 @@ We start by stating that our model will be that of a polymer chain attaching to 
 	\caption{Approximation of (a) sphere to (b) square lattice}
 \end{figure}
 
-
-
-
-\section*{Modelling Approach}
-
-\noindent Given each of the scenarios we compare the output of available loops and in turn configurations for Long (6200mers), Arbitrary Midlength (3100mers), Short (27mers) respectively.
+\noindent 
 
 %if I will use this I need to fix up the dimensions
 % \begin{tabular}{c|c|c}
@@ -265,13 +261,13 @@ We start by stating that our model will be that of a polymer chain attaching to 
 % \end{tabular}
 
 
-\noindent In essence, if we were to hypothesize the scenario of "squeezing" an additional chain, we inspect how the other chains on the surface would need to be rearranged and loop to accommodate this addition. Finally, after calculating the number of ways they could be rearranged, we ask if given this quantity of configurations if this would be a preferable scenario.
+\noindent  An apt illustration of the model, would be to imagine a 3 dimensional tetris game where the only difference is that all chains will be dropped simultaneously with the additional option of generating loops on the chains (our tetris pieces) for a set amount of supplementary chain segments, dependant on the amount of chains we are attempting to drop. Given each of the scenarios we compare the output of available loops and in turn configurations for Long (6200mers), Arbitrary Midlength (100mers), Short (27mers) respectively for each available scenario of looping on the surface. In essence, each consecutive looping scenario is that of "squeezing" an additional chain into the total available chain candidates for surface attachment, we then proceed to inspect how the chains would need to be arranged and looped on the surface to accommodate this addition. Finally, after calculating the number of ways they could be rearranged, we ask if given this quantity of configurations (cardinality), if this would be a preferable scenario. by comparing to the calculations of prior scenarios.\\
 
-\section*{Model Approximation}
+\section*{Parameters and Definitions}
 We proceed with a hybrid of Fleer \cite{fleer1993polymers} and of our very own Long-Short approach. We start by observing the case with full (no loops), in order to understand the entropy when no loops exist. Then we proceed to the novel portion, of comparing the configurations when an additional chain is on the surface, and calculate how many loops, and where theses loops could be generated and in how many ways could the loops and the chains be arranged. Then we do the same when one more chain than the prior scenario, is on the surface and compare our results to the prior scenario. In this first order approach we shall assume loops of length one mer, $s_{lp}=1$. We also assume the site below the loop is occupied by one of the adjacent trains, resulting from the restricted walks, after the formation of the loop.
 
 
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.3\textwidth}
 		\centering
@@ -289,7 +285,6 @@ We proceed with a hybrid of Fleer \cite{fleer1993polymers} and of our very own L
 \end{figure}
 
 
-\noindent Prior to proceeding to the notational descriptions, let us first understand an illustration of the model. Essentially, one can imagine a 3 dimensional tetris game where the only difference is that all chains will be dropped simultaneously and we have the additional option of generating loops on the chains (our tetris pieces) for a set amount of supplementary chain segments, given the amount of chains we are attempting to drop.\\
 
 \noindent We begin by establishing a formalisation of the model in describing the notational framework. The setup is that of multiple adsorbed chains of same length. We begin by making the assumption that the number of adsorbed sites is same for each chain, and we don't have clustering effects [check]. From Fleer \cite{fleer1993polymers} we have adopted the following notation (refer to Appendix?). The number of mers per chain (chainlength) is $\mathbf{r}$. The fixed length of loops on an adsorbed chain enumerated in units of single mer sites, is notated by, $\mathbf{s_{lp}}$, the number of loops, on the adsorbed chain, which will also be in units of single mer sites, is $\mathbf{n_{lp}}$. Additionally, $\mathbf{n_a}$  is the number of chains on the surface and $\mathbf{n_b}$ number of chains in solution, counted in number of chains. Finally, $\mathbf{q_{ch}}$ is the notation for the partition function of one adsorbed chain.\\
 
@@ -515,7 +510,10 @@ and we neglect the energetic factor as well as the interactions, that were incor
 	\label{Qfleer}
 \end{equation}
 
-\noindent Substituting \ref{eq. q2} and \ref{eq. q3} into \ref{Qfleer}.
+\newpage
+\section*{Derivation of Approximation Method}
+
+Combining the above definitions, parameters and expressions we proceed to derive a method for computing the preferential scenario of polymer looping on the surface of a colloid. We begin by substituting \ref{eq. q2} and \ref{eq. q3} into \ref{Qfleer}.
 
 \begin{equation}
 	Q(n_a,n_b)=
@@ -699,7 +697,7 @@ f(n_a,n_b)=\,
 
 
 \text{}\\
-\noindent Taking the logarithm of the above function, and employing the stirling approximation method (rel. \ref{stirl}) for the logarithms of factorials. We get relation \ref{logf}
+\noindent Taking the logarithm of the above function, and employing the stirling approximation method (rel. \ref{stirl}) for the logarithms of factorials, we get relation \ref{logf}
 
 \begin{equation}
 	\boxed{stirl[x]:=\stirl{x}}
@@ -920,7 +918,7 @@ f(n_a,n_b)=\,
 
 \noindent The function from expression \ref{fnanb} is a method that compares two adjacent [there's a better way of saying this] polymer attachment scenarios. This tool enables to find where two attachment scenarios are equivalent in Q partition functions which is represented by $f(n_a,n_b)$ being equal to unity, and thus we have located a preferential scenario for looping. This process will be done through an iterative process described in the algorithm in the next section.
 
-\section*{Algorithm}
+\section*{Algorithm\textcolor{red}{clean this up!!!}}
 
 
 %=======================================================================================
@@ -1032,13 +1030,14 @@ f(n_a,n_b)=\,
 \end{algorithm}
 
 \newpage
-\section*{Maximal Chains On Surface: Stopping Criterion}
+\section*{Further Considerations\textcolor{red}{[Candidate for Discussion]}}
+\subsection*{Maximal Chains On Surface: Stopping Criterion}
 
 We also seek to find the maximal number of loops. This can be done by deciding what the minimal number of trains would look like. Then for that value of trains we solve for the number of loops, this value is also going to be the stopping criterion for our problem.
 
 
 
-\section*{Convexity Hypothesis}
+\subsection*{Convexity Hypothesis}
 In the modelling a pertinent question is given the fixed loop length, what is te preference of the system when it comes to loop generation distribution on the lattice. In other words we want to check if the shrinkage of the chains on the surface is shared equally. It could either be the case of a preference to the extremes of looping in high densities or that overall, there's uniform generation of loops throughout the lattice (with a consideration of very few outliers). In order to find out the preference we must test for convexity.\\
 
 \noindent Given a partition function if as we increase the distance of the looped elements from the main diagonal we notice a jump in the contribution of the partition we can safely say there is a preference for boundary behaviours, whereas if the converse is true than we have a uniform generation of loops and can proceed with a convex approach.\\\\
