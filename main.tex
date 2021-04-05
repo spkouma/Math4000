@@ -1,0 +1,131 @@
+\documentclass[border={10}]{standalone}
+\usepackage{tikz}  
+\usepackage{tikz-3dplot} 
+
+
+\tdplotsetmaincoords{70}{120} % set viewpoint 
+\tdplotsetrotatedcoords{0}{0}{0} %<- rotate around (z,y,z)
+\begin{document}
+
+\begin{tikzpicture}[scale=3,tdplot_rotated_coords,
+                    rotated axis/.style={->,purple,ultra thick},
+                    blackBall/.style={ball color = black!80},
+                    borderBall/.style={ball color = white,opacity=.25}, 
+                    very thick]
+
+
+
+
+
+
+% \foreach \x in {0,1,2}
+%   \foreach \y in {0,1,2}
+%       \foreach \z in {0,1,2}{
+%           %#####################################################
+%           \ifthenelse{  \lengthtest{\x pt < 2pt}  }{
+%              \draw (\x,\y,\z) -- (\x+1,\y,\z);
+%              \shade[rotated axis,blackBall] (\x,\y,\z) circle (0.025cm); 
+%           }{}
+%           %#####################################################
+%           \ifthenelse{  \lengthtest{\y pt < 2pt}  }{
+%               \draw (\x,\y,\z) -- (\x,\y+1,\z);
+%               \shade[rotated axis,blackBall] (\x,\y,\z) circle (0.025cm);
+%           }{}
+%           %#####################################################
+%           \ifthenelse{  \lengthtest{\z pt < 2pt}  }{
+%               \draw (\x,\y,\z) -- (\x,\y,\z+1);
+%               \shade[rotated axis,blackBall] (\x,\y,\z) circle (0.025cm);
+%           }{}
+
+% }
+
+\draw[blue] (0,1,1) -- (0,2,1);
+\shade[rotated axis,blackBall] (0,1,1) circle (0.025cm); 
+\shade[rotated axis,blackBall] (0,2,1) circle (0.025cm); 
+
+
+\draw[blue] (0,2,1) -- (0,2,0);
+\shade[rotated axis,blackBall] (0,2,0) circle (0.025cm); 
+
+
+\draw[blue] (0,1,1) -- (0,1,2);
+\shade[rotated axis,blackBall] (0,1,2) circle (0.025cm); 
+
+\draw[blue] (0,1,2) -- (0,2,2);
+\shade[rotated axis,blackBall] (0,2,2) circle (0.025cm); 
+
+
+\draw[blue] (0,2,2) -- (0,2,3);
+\shade[rotated axis,blackBall] (0,2,3) circle (0.025cm); 
+
+
+\draw[blue] (0,2,3) -- (0,3,3);
+\shade[rotated axis,blackBall] (0,3,3) circle (0.025cm); 
+
+\draw[blue] (0,3,3) -- (0,4,3);
+\shade[rotated axis,blackBall] (0,4,3) circle (0.025cm); 
+
+
+\draw[blue] (0,4,3) -- (0,4,2);
+\shade[rotated axis,blackBall] (0,4,2) circle (0.025cm); 
+
+
+
+\draw[blue] (0,4,2) -- (0,3,2);
+\shade[rotated axis,blackBall] (0,3,2) circle (0.025cm); 
+
+\draw[blue] (0,3,2) -- (0,3,1);
+\shade[rotated axis,blackBall] (0,3,1) circle (0.025cm); 
+
+
+\draw[blue] (0,3,1) -- (0,3,0);
+\shade[rotated axis,blackBall] (0,3,1) circle (0.025cm); 
+\shade[rotated axis,blackBall] (0,3,0) circle (0.025cm); 
+
+%%%%%%%%%%%%%%%%%%%%%%%
+SURF right
+%%%%%%%%%%%%%%%%%%%%%%%
+\draw[red] (0,3,0) -- (0,4,0);
+\shade[rotated axis,blackBall] (0,4,0) circle (0.025cm); 
+
+
+\draw[red] (0,4,0) -- (0,5,0);
+\shade[rotated axis,blackBall] (0,5,0) circle (0.025cm); 
+
+\draw[red] (0,5,0) -- (-1,5,0);
+\shade[rotated axis,blackBall] (-1,5,0) circle (0.025cm); 
+
+\draw[red] (0,3,0) -- (0,4,0);
+\shade[rotated axis,blackBall] (0,3,1) circle (0.025cm); 
+\shade[rotated axis,blackBall] (0,3,0) circle (0.025cm); 
+%%%%%%%%%%%%%%%%%%%%%%%
+SURF left
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\draw[red] (0,1,0) -- (0,2,0);
+\shade[rotated axis,blackBall] (0,1,0) circle (0.025cm); 
+\shade[rotated axis,blackBall] (0,2,0) circle (0.025cm); 
+
+\draw[red] (0,0,0) -- (0,1,0);
+\shade[rotated axis,blackBall] (0,1,0) circle (0.025cm); 
+\shade[rotated axis,blackBall] (0,0,0) circle (0.025cm); 
+
+\draw[red] (0,0,0) -- (1,0,0);
+\shade[rotated axis,blackBall] (1,0,0) circle (0.025cm); 
+
+% \shade[rotated axis,blackBall] (1,0,1) circle (0.05cm); 
+% \shade[rotated axis,blackBall] (1,2,1) circle (0.05cm); 
+% \shade[rotated axis,blackBall] (0,1,1) circle (0.05cm); 
+% \shade[rotated axis,blackBall] (2,1,1) circle (0.05cm);
+% \shade[rotated axis,blackBall] (1,1,2) circle (0.05cm);
+% \shade[rotated axis,blackBall] (1,1,0) circle (0.05cm);
+
+% \shade[rotated axis,borderBall] (1,0,1) circle (0.1cm);
+% \shade[rotated axis,borderBall] (1,2,1) circle (0.1cm);
+% \shade[rotated axis,borderBall] (0,1,1) circle (0.1cm);
+% \shade[rotated axis,borderBall] (2,1,1) circle (0.1cm);
+% \shade[rotated axis,borderBall] (1,1,2) circle (0.1cm);
+% \\shade[rotated axis,borderBall] (1,1,0) circle (0.1cm); 
+% \draw (1.1,1.15,1.05) node[scale=1.2, below] {\textbf{p}};   
+\end{tikzpicture}
+\end{document}

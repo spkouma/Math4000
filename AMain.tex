@@ -1,5 +1,5 @@
-\documentclass[10pt,letterpaper]{article}
-\usepackage[scale=0.7]{geometry}
+\documentclass[12pt,letterpaper]{article}
+\usepackage[scale=0.75]{geometry}
 \usepackage[version=3]{mhchem} 
 \usepackage[english]{babel}
 \usepackage{chemfig}
@@ -11,18 +11,43 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
-\usepackage[english]{babel}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
 \usepackage{subcaption}
 \usepackage{cancel}
+% \usepackage[sort, numbers]{natbib}
+% \usepackage[superscript]{cite}
+\usepackage{float}%for [H]
+\usepackage[font=small,labelfont=bf]{caption}
 \tolerance=1
 \emergencystretch=\maxdimen
 \hyphenpenalty=10000
 \hbadness=10000
 
-%
-% \newcommand{\species}[1]{\textit{#1} sp.}
+\usepackage{lipsum}
+\usepackage{tcolorbox}
+\usepackage{units}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   a header of sorts..                           %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\lr}[1]{\left( #1 \right)}
+\newcommand{\lrb}[1]{\left[ #1 \right]}
+\newcommand{\lrcb}[1]{\left\{ #1 \right\}}
+\newcommand{\ab}[1]{\ensuremath{\left| #1 \right|}}
+\newcommand{\norm}[1]{\ensuremath{\left|\left| #1 \right|\right|}}
+\newcommand{\norms}[2]{\ensuremath{\norm{#1}_{#2}}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Cx}{\mathbb{C}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %To remove auto indenting
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newcommand{\nads}[1]{
     \ensuremath{
         \frac{
@@ -35,9 +60,13 @@
 %
 \newcommand{\nlp}[1]{
     \ensuremath{
-        r
-        -
-        \nads{#1}
+        \frac{
+            r
+            -
+            \nads{#1}
+        }{
+            s_{lp}
+        }
     }
 }
 %
@@ -81,6 +110,23 @@
     }
 }
 %
+\newcommand{\facto}[2]{
+    \ensuremath{
+        \frac{
+        #1!
+        }{
+        \lr{
+        #2
+        }!
+        \lr{
+        #1
+        -
+        #2
+        }!
+        }
+    }
+}
+
 \newcommand{\logOFgOFm}[1]{
 	\ensuremath{
 	#1
@@ -118,1151 +164,1379 @@
 \hyphenpenalty=10000
 \hbadness=10000
 %
-\newcommand{\StirlOFgOFm}[1]{
-	\ensuremath{
-	#1
-	\cdot
-	\left\{
-    	stirl
-    	\left[
-    	        \nads{#1}
-    	\right]
-    	-
-    	stirl
-    	\left[
-        	    \nlp{#1}
-    	\right]
-    	-
-    	stirl
-    	\left[
-        	    2
-        	    \cdot
-        	    \nads{#1}
-        	    -
-        	    r
-    	\right]
-	\right\}
-	}
-}
-%
-\newcommand{\myQ}[5]{
-	\ensuremath{	
-%		Q
-%		\left(#1,#2 \right)=
-		n!
-		\left(
-		\left(
-		A_2
-		\right)^{#1}
-		\cdot 
-		\mu_{2}^{n_{surf}} 
-		\cdot 
-		#5
-		\cdot
-		\frac{
-		        n_{surf}^{#1}
-		    }{
-		        #1!
-		    }
-		\cdot
-		\left(
-		    A_3
-		\right)^{#2}
-		\cdot 
-		\left(
-		    \mu_{3}
-		\right)^{r\cdotp #2}
-		\cdot
-		\frac{
-			n_{vol}^{#2}
-		}{
-			#2!
-		}
-		\right)
-		}
-}
-%
-%
-\newcommand{\gOFm}[2]{
-\left( \frac{
-\left(\frac{#2}{#1}\right)!}{ 
-\left(r-\frac{#2}{#1}\right)! 
-\left(2\frac{#2}{#1}-r\right)!}
-\right)^{#1}  
-}
-%
-%\usepackage[superscript]{cite}
-\title{Adsorption of Polyelectrolytes to a Spherical Colloid Surface with Loop Considerations}
+
+
+
+
+
+\title{Adsorption of Polyelectrolytes to a Spherical Colloid Surface with Variable Loop Considerations}
 \author{Spyros Koumarianos}
 \date{\today}
-	
-
-
+%
 \begin{document}
+
+
 \maketitle
+\begin{abstract}
+\lipsum[1]
+\end{abstract}
+%
+\tableofcontents
+% \listoffigures
+%\lstlistoflistings
+%
+
 
 \newpage
 
-\section*{Introduction}
-\noindent \textcolor{red}{[proper intro paragraph needed]}\\
-
-\noindent \textcolor{red}{[background]}\\
-
-Motivation of this analysis is that of continuing down the pathway of devising an even more realistic model for the conformational modelling of polymer chains on a spheroid surface. \textcolor{red}{[more]}
-The previous model devised in (ref to LongShort) focuses on the behaviour given an ideal setup, where the chains are either completely binded or floating in solution.Goal of this extension is to enhance the model and incorporate loops into the model. We proceed to to do this modelling within a framework of solely entropic considerations, and thus of enumeration of choices given a certain number of loops.
-
-We first define the  terms trains, tails and loops, as this information will be vital in our analysis. Trains are the polymer segments that are adsorbed onto a surface, loops are the  desorbed segments separated by two trains while tails are the desorbed end segments. In the rest of report tails will not be considered. 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.5]{Clipboard.png}
-	\caption{Illustration of trains,tails, loops \cite{fleer1993polymers}}
-	\label{fig:gull}
-\end{figure}
+\section{Introduction}
+%
+\lipsum[15-18]
+%
+% \subsection{Literature Review}
 
 
 
-\section*{Modelling Setup and Approach}
+% properties of layers of adsorbed polymers,\cite{fleer1993polymers,stuart1996adsorbed,yethiraj2002polymer,stuart1998macromolecular,o2004non}
 
-In this model we assume a fixed loop length and compare the cardinality of configuration sets of 3 different chain lengths individually. We will essentially be computing this cardinality for multiple scenarios of coverage from initial scenario being of full coverage with no loops. The consecutive scenarios being of adding additional chains to the surface,which is done iteratively for more and more chains adsorbed and thus more and more loops generated, all the way up to the scenario where there is zero (or minimal) existence of trains of more than 1 mer (this of course will largely depend on the number of mers per chain and if they can properly be broken up and the decision of the length of our fixed loop). We will finally compare the results of the three different chain lengths in terms of contribution based on cardinality of configurations with the consideration of loops. The ultimate goal is to compile a framework that then can be used, where one would sample multiple different loop lengths and have the model test each one individually and then combine the results. This method essentially teases out the complexity of Fleer's more universal approach, by means of a more iterative process, with simpler approximations, and thus better compatibility with a low-power computational environment.
+% statistical models in using mean-field framework \cite{scheutjens1980statistical,de1981polymer} simulation methods \cite{kramarenko1996molecular,striolo2001adsorption,sintes2001adsorption,striolo2005adsorption}
 
-We start by stating that our model will be that of a polymer chain attaching to a spherical lattice \textcolor{red}{[more, is that really our model??]}. We then assumme for ease of computation and geometrical analysis [needs more focused terminology], that the surface of the sphere can be approximated to a square lattice with the same number of single mer sites. In our report this will be notated as $n_{surf}$. 
+% dynamics of polymer adsorption  using dynamic mean-field techniques\cite{hasegawa1997adsorption}
 
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
-		\centering
-		\includegraphics[scale=0.15]{latticeMid.pdf}
-		\caption{          }
-		\label{fig:gull}	
-	\end{subfigure}
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[scale=0.45]{squarelatticeMid.pdf}
-		\caption{       }
-		\label{fig:gull}	
-	\end{subfigure}
-	\caption{Approximation of (a) sphere to (b) square lattice}
-\end{figure}
+% Brownian motion \cite{kallrot2007dynamic, kallrot2009} 
 
-\noindent 
-
-%if I will use this I need to fix up the dimensions
-% \begin{tabular}{c|c|c}
-
-% 	Scenario;  & How Many Available Combinations? & Largest Contribution? \\ 
-% 	\hline
-% 	full coverage, no loops & $\mathcal{E}_{L}$, $\mathcal{E}_{M}$, $\mathcal{E}_{L}$? & L,M or S?\\ 
-% 	scenario with one more chain added & \vdots & \vdots\\
-% 	scenario with 2 chains added &  \vdots & \vdots\\
-% 	\vdots & \vdots & \vdots\\
-% 	scenario with 2 chains added & \vdots & \vdots\\
-% 	\hline 
-% \end{tabular}
+% molecular dynamics\cite{smith2005polymer,harmandaris2005molecular,daoulas2005detailed,li2007dynamics,chremos2009adsorption}
 
 
-\noindent  An apt illustration of the model, would be to imagine a 3 dimensional tetris game where the only difference is that all chains will be dropped simultaneously with the additional option of generating loops on the chains (our tetris pieces) for a set amount of supplementary chain segments, dependant on the amount of chains we are attempting to drop. Given each of the scenarios we compare the output of available loops and in turn configurations for Long (6200mers), Arbitrary Midlength (100mers), Short (27mers) respectively for each available scenario of looping on the surface. In essence, each consecutive looping scenario is that of "squeezing" an additional chain into the total available chain candidates for surface attachment, we then proceed to inspect how the chains would need to be arranged and looped on the surface to accommodate this addition. Finally, after calculating the number of ways they could be rearranged, we ask if given this quantity of configurations (cardinality), if this would be a preferable scenario. by comparing to the calculations of prior scenarios.\\
+% dynamic Monte Carlo Methods \cite{jia1996kinetics, zajac1996statics,takeuchi1999monte,ponomarev2000adsorption,klein2005diffusion,smith2006monte,descas2006irreversible}
 
-\section*{Parameters and Definitions}
-We proceed with a hybrid of Fleer \cite{fleer1993polymers} and of our very own Long-Short approach. We start by observing the case with full (no loops), in order to understand the entropy when no loops exist. Then we proceed to the novel portion, of comparing the configurations when an additional chain is on the surface, and calculate how many loops, and where theses loops could be generated and in how many ways could the loops and the chains be arranged. Then we do the same when one more chain than the prior scenario, is on the surface and compare our results to the prior scenario. In this first order approach we shall assume loops of length one mer, $s_{lp}=1$. We also assume the site below the loop is occupied by one of the adjacent trains, resulting from the restricted walks, after the formation of the loop.
+% different degrees of freedom \cite{kramarenko1996molecular,boehm1980statistical,netz1999adsorption,netz2003neutral,skvortsov1976monte,tang2010revisiting,linse2010polymer,klushin2013adsorption,kuznetsov1997new,maggs1989unbinding,birshtein1979adsorption,semenov1996adsorption}, 
 
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[scale=0.2]{loop1_trains.png}
-		\caption{All chains with loops of length one mer and arbitrary trains}
-		\label{loop and train}
-	\end{subfigure}~~~~~~~~~~~~
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[scale=0.2]{loop1.png}
-		\caption{All chains with loops of length one mer and trains of one mer}
-		\label{loop}
-	\end{subfigure}
-	\caption{Modelling Approach with fixed looplength}
-\end{figure}
+% loops, tails and trains \cite{semenov1996adsorption,van1996adsorption,hoeve1965adsorption,silberberg1962adsorption} 
 
 
+\newpage
+\section{Modelling Setup and Approach}
 
-\noindent We begin by establishing a formalisation of the model in describing the notational framework. The setup is that of multiple adsorbed chains of same length. We begin by making the assumption that the number of adsorbed sites is same for each chain, and we don't have clustering effects [check]. From Fleer \cite{fleer1993polymers} we have adopted the following notation (refer to Appendix?). The number of mers per chain (chainlength) is $\mathbf{r}$. The fixed length of loops on an adsorbed chain enumerated in units of single mer sites, is notated by, $\mathbf{s_{lp}}$, the number of loops, on the adsorbed chain, which will also be in units of single mer sites, is $\mathbf{n_{lp}}$. Additionally, $\mathbf{n_a}$  is the number of chains on the surface and $\mathbf{n_b}$ number of chains in solution, counted in number of chains. Finally, $\mathbf{q_{ch}}$ is the notation for the partition function of one adsorbed chain.\\
+\subsection{Parameters, Definitions}
+\textbf{Sites:} The nodes (dots) on figure \ref{fig:loopSchem}\\
+
+\textbf{Steps:} The edges (links) between the nodes on figure 
+\ref{fig:loopSchem}.\\
+
+$
+\boldsymbol{
+    r
+}
+$: 
+Number of sites in one chain.\\
+
+$
+\boldsymbol{
+    r
+    -
+    1
+}
+$: 
+Number of steps in one chain\\
+
+$
+\boldsymbol{
+    n_{a}
+}
+$: 
+Number of chains on the colloid surface.\\
+
+$
+\boldsymbol{
+    n_{a,0}
+}
+$: 
+initial value, of chains that can fit on the colloid surface (pancaked i.e.; no loops) this is also can be considered a minimum amount of chains for the surface.\\
+
+$
+\boldsymbol{
+    n_{b}
+}
+$: 
+Number of chains in the solution, based on a heuristic used in \cite{koumarianos2021theory}\\
+
+$
+\boldsymbol{
+    n_{b,0}
+}
+$: 
+initial value, of chains that can freefloat in solution. This is based on a model assumption of the distribution and quantity of chains in a specific volume of solution in \cite{koumarianos2021theory}. This is also can be considered a minimum amount of chains for the solution, as they progressively transition to being adsorbed to the colloid.\\
 
 
-\noindent We proceed to define our own notational framework below. We let $n_{surf}$ be the total available surface sites.
-
+$
+\boldsymbol{
+    n
+}
+$: 
+Total number of chains in the whole system.
 \begin{equation}
-	\boxed{n_{surf}=n_{ads}\cdotp n_{a}}
-	\label{nsurf}
+n=n_a+n_b,
+	\label{eq. n}
 \end{equation}
 
-\noindent We assume the following conditions for our model.
+$
+\boldsymbol{
+    s_{lp}
+}
+$: 
+Number of steps in a single loop (on the simple cubic lattice, this is an even number, that is greater than or equal to 3).\\
 
+$
+\boldsymbol{
+    s_{lp}
+    +
+    1
+}
+$:  
+Number of sites in a single loop including the two endpoint sites that are in the surface.\\
+
+$
+\boldsymbol{
+    s_{lp}
+    -
+    1
+}
+$: 
+Number of sites in a single loop that do not lie in the surface.\\
+
+% We have L to define this maybe uncomment in future we shall see...
+% $
+% \boldsymbol{
+%     n_{ads}
+% }
+% $: 
+% number of adsorbed sites, in mers per, chain (on average) as,
+
+% \begin{equation}
+% 	n_{ads}:= \frac{n_{surf}}{n_a}
+% 	\label{nads}
+% \end{equation}
+
+
+
+$
+\boldsymbol{
+    n_{surf}
+}
+$: 
+The total available sites on the surface of the colloid.\\
+
+$
+\boldsymbol{
+n_{lp}
+}
+$: 
+Number of loops in one chain.\\
+
+$
+\boldsymbol{
+    \bar{n}_{lp}
+}
+$: 
+Number of loops on average per chain.\\
+
+$\leng$: number of sites of a chain that are on the surface.\\
+
+$\leng-1$: number of steps of a chain that are on the surface, including the "phantom steps" at the base of each loop.\footnote{Important to note here, is that our previous paper, used $\leng_{[ChainType]}$ for the number of sites in a chain (not the number of steps).  In Equation \ref{wk2supp} we want the number of steps, but in Equation \ref{Gofna} we want the number of sites. To be consistent with the other paper, we have opted to use $\leng$ for the number of sites.}\\
+
+%%Keeping this bcz something about the explanation could come to use later
+% L is a kind of remainder of mers on surface, and the $+n_{lp}$ is a "phantom" step
+
+\paragraph{Intuition of the Above Quantities Using a Concrete Example} The explanation will be based on a concrete example of a single chain with one loop, this example is illustrated in Figure \ref{fig:loopSchem}.\\
+
+An example of $\boldsymbol{\leng-1}$ would be steps (links), the the red segment (1-17) including the green segment.\\
+
+An illustration of $\boldsymbol{\leng}$ would be steps (links), the the red segment (1-17) discluding the green segment.\\
+
+Now, in the case of enumerating \underline{sites} of a specific loop, we have that
+$
+\boldsymbol{
+    s_{lp}
+    +
+    1
+}
+$
+would be the blue segment (4-14) including the sites (nodes) linking the red segment to the blue segments which are labelled as that of: $node_{(3,4)}$ and $node_{(14,15)}$.\\
+
+For the case of
+$
+\boldsymbol{
+    s_{lp}
+    -
+    1
+}
+$
+we are enumerating \underline{sites} of a specific loop that \underline{do not lie in the surface} (ie; exclusively reside in the 3D lattice) it would be the blue segment (4-14) excluding the sites (nodes) linking the red segment to the blue segments, namely that of: $node_{(3,4)}$ and $node_{(14,15)}$.\\
+
+Now in the case of $
+\boldsymbol{
+    s_{lp}
+    -
+    1
+}
+$
+we are enumerating \underline{step} (ie; the numerically labelled steps (edges or bonds) of a specific loop of the loop, namely that of: $(4,14)$ and excluding the green segment (ie the direct single step link between 3 and 15).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.50]{stickball1.pdf}
+    \caption{Caption}
+    \label{fig:loopSchem}
+\end{figure}
+
+
+\paragraph{Initial Relationships of the Model} Using the above defined variables and functions we have the following preliminary relationships.
+
+\begin{equation}
+	    n_{surf}= \leng\;n_a
+	    \label{eq.nsurf}
+\end{equation}
+
+\begin{equation}
+	n_{lp}:= \frac{r-\frac{n_{surf}}{n_a}}{s_{lp}-1}
+	\label{eq.nlp}
+\end{equation}
+
+
+
+\begin{equation}
+    \bar{n}_{lp}:=r-\leng=r-\frac{n_{surf}}{n_a}
+	\label{eq.mean_nlp}
+\end{equation}
+
+
+
+%
+\begin{equation}
+\leng
+=
+r 
+- 
+n_{lp}
+(s_{lp}-1)
+\label{eq.lengminus}
+\end{equation}
+
+
+%
+\begin{equation}
+\leng
+-
+1
+=
+(r-1) 
+- 
+n_{lp}
+s_{lp}
++ 
+n_{lp}
+\label{Eq: leng}
+\end{equation}
+
+
+% (Note the two different ways of counting L and L-1 as described by the above bracketing, which are consistent)\\
+
+
+
+% (needs asymptotic approximation as well so it can gain context for the reader, simple cubic lattice $Z^3$)
+% \\
+
+
+\begin{tcolorbox}[sharp corners, colback=green!30, colframe=green!80!blue, title=Brief Review of Self Avoiding Walks]
+% \paragraph{Review of Self Avoiding Walks} 
+The configuration  of a single  polymer in a dilute solution is often modeled by
+a self-avoiding walk (SAW) in a lattice \cite{MadrasNotes2019}, i.e.\  a path in the lattice that does not visit any site more than once.
+A fundamental property of SAWs is the following.  
+Let $c_{\ell}$ be
+the number of SAWs that start from a specified lattice site (``the origin'') and visit a total of $\ell$ sites
+(including the starting site).   Then the 
+asymptotic behaviour of $c_{\ell}$ on the three-dimensional cubic lattice is \cite{MadrasNotes2019}
+\begin{equation}
+    \label{eq.sawscale}
+       c_{\ell}  \;\sim  \;  A_3 \, {\ell}^{\gamma_3-1}  \mu_3^{\ell}    \hspace{5mm}\hbox{as $\ell\rightarrow\infty$}.
+\end{equation}
+% (This has not been proven rigorously, but even mathematicians do not doubt its truth.) 
+Here $\mu_3$ and $A_3$ depend on the choice of lattice, but $\gamma_3$ is a universal critical exponent
+that is the same for all three-dimensional lattices.  
+Their values are known to be approximately \cite{chen2002universal, madras2013self}
+\begin{equation}
+   \label{eq.gammas}   \mu_3 \;=\;  4.684, \hspace{5mm}
+        \gamma_3 \;=\;  1.162,    \hspace{5mm}\hbox{and}\hspace{5mm}
+    A_3  \;=\;    0.2573  \,.  %1.205/4.683 \;=\;  \,.
+\end{equation}
+(Estimation in \cite{chen2002universal} is for the 
+number of SAWs with $\ell$ \textit{steps} (i.e.\ $\ell+1$ \textit{sites}), which we write  $c_{\ell+1}=(A_3\mu_3)\ell^{\gamma_3-1}\mu_3^{\ell}$; reference \cite{chen2002universal} obtains $A_3\mu_3=1.205$.)
+\end{tcolorbox}
+\text{}\\
+
+$\boldsymbol{A_3}$: amplitude for computing the number of self avoiding walk in a three dimensional cubic lattice.\\
+
+$\boldsymbol{\mu_3}$: connective constant for the computing the number of self avoiding walk in three dimensional cubic lattice.\\
+
+\begin{tcolorbox}
+A similar approach \cite{guttmann2009polygons} is followed for the enumeration of Self Avoiding Polygons (SAP). In the literature \cite{guttmann2009polygons}, the most commonly used notation for the amplitude of (SAP) in a simple cubic lattice ($Z^3$),is that of $B_3$.
+\end{tcolorbox}
+
+$\boldsymbol{B_3}$: amplitude for computing the self avoiding polygon, in a three dimensional cubic lattice.
+
+\subsection{Development of a Mean Field approach with Loop Considerations}
+
+Based on the derivations in the supplement of  \cite{koumarianos2021theory}, we have that $\tilde{w}_k$ is the number of ways to place the $k^{th}$ chain of adjusted size $\leng$, given the prior information of having already placed
+%
 $$
-\boxed{
-    \left. %this is a delimiter
-        \begin{array}{ll}
-            \text{Number of total sites on surface:} & n_{surf}\\
-            \text{Length of each chain:}& r\\
-        \end{array}
-    \right\}
-    \rightarrow\text{FIXED}
+(k-1)\leng
+$$
+%
+mers on the two dimensional lattice. We let $q$ be the number of nearest neighbours of each site on the surface. 
+%
+% In the previous work\cite{koumarianos2021theory}, using a Flory-Huggins approach, $\tilde{w}_k$ was derived to be that of Equation \ref{wk2supp}.
+% The reasoning of the approach is the following.\\
+%
+%
+Given an arbitrary value $j$, we want to calculate the amount of ways that $j$ $\leng$-mers could be placed on the surface, without overlapping.
+%
+We place one polymer at a time, starting with the long ones.
+%
+% Let $\tilde{w}_k$ be the number of ways to place the $k^{th}$ $\leng_L$-mer on the surface, given that
+% $(k-1)$ $\leng_L$-mers have already been placed.  
+%
+To begin with, there are
+$$
+n_a\leng-(k-1)\leng
+$$
+available sites for the first monomer. 
+%
+Recall that  $q$ is the number of neighbors of each site in the surface lattice.
+%
+When considering the adsorption of the first chain without any other chains on the surface, there would be $q$ choices for the second monomer in the chain,
+and $q-1$ choices for each monomer after that 
+%
+%(here we are using the non-reversed walk model of a polymer instead of the fully self-avoiding model).  
+%
+More generally, the above value of choices, should on average be reduced by the fraction of the surface that has already been covered.
+%
+When considering the placement of the second monomer of the chain, there would be
+$$
+n_a\leng-(k-1)\leng-1
+$$
+unoccupied sites, which means that each site has probability 
+$$
+\frac{n_a\leng-(k-1)\leng-1}{n_a\leng}
+$$
+of being available.  
+This results in
+$$
+q
+\frac{
+    n_a
+    \leng
+    -
+    (k-1)
+    \leng
+    -
+    1
+}{
+    n_a
+    \leng
 }
 $$
+choices for the second monomer. Similarly, after $i$ monomers of the current chain have been placed ($i\geq 2$), the fraction of the surface that has not been covered is
+$$
+\frac{n_a\leng-(k-1)\leng-i}{n_a\leng},
+$$
+so there are
+$$
+(q-1)
+\frac{
+n_a
+\leng
+-
+(k-1)
+\leng
+-
+i
+}{
+a\leng
+}
+$$
+choices for the $(i+1)^{th}$ monomer in this chain. We conclude that 
+\begin{eqnarray}
+   \tilde{w}_k  & = &   [a\leng_L-(k-1)\leng_L]\,\times \,q\left(\frac{ a\leng_L-(k-1)\leng_L-1}{a\leng_L}\right)    \,\times
+   \nonumber    \\
+   & &    \hspace{22mm}
+     \prod_{i=2}^{\leng_L-1}(q-1)\left(\frac{ a\leng_L-(k-1)\leng_L-i}{a\leng_L}\right)  
+      \nonumber \\
+ & = &    \frac{[a\leng_L-(k-1)\leng_L]!}{[a\leng_L-k\leng_L]!} \,q\,  \frac{(q-1)^{\leng_L-2}}{(a\leng_L)^{\leng_L-1}}  
+     \nonumber    \\
+     & = &    \frac{[a\leng_L-(k-1)\leng_L]!}{[a\leng_L-k\leng_L]!}   a\leng_L \frac{q}{(q-1)^2}\left(  \frac{q-1}{a\leng_L}\right)^{\leng_L}.
+     \label{eq.wk2supp}
+\end{eqnarray}
 
-
-
-
-\noindent Given the above, we define the number of adsorbed sites, in mers per, chain (on average) as,
+We then take into account Equation \ref{eq.nsurf} which leads to the following simplification,
 
 \begin{equation}
-	\boxed{n_{ads}:= \frac{n_{surf}}{n_a}}
-	\label{nads}
+   \tilde{w}_k 
+   =
+   \frac{
+        [
+            n_{surf}
+            -
+            (
+                    k
+                -
+                1
+            )
+                \leng
+        ]
+        !
+   }{
+        [
+            n_{surf}
+            -
+        k
+        \leng
+        ]
+        !
+   }   
+    n_{surf}
+   \frac{
+        q
+   }{
+        (q-1)^2
+   }
+   \left(
+        \frac{
+            q
+            -
+            1
+        }{
+            n_{surf}
+        }
+    \right)
+    ^{
+            \leng
+    }.
+    \label{wk2supp}
 \end{equation}
 
-
-\noindent Let $n_{lp}$ be the number of sites in all loops 
-in one chain (on average).
-
-\begin{equation}
-	\boxed{\bar{n}_{lp}:=r-\frac{n_{surf}}{n_a}}
-	\label{mean nlp}
-\end{equation}
-
-
-\noindent The number of loops per 
-chain is calculated through,
+For the set corresponding to all iterations for up to and including the full coverage scenario we then have, 
 
 
 \begin{equation}
-	\boxed{n_{lp}:= \frac{r-\frac{n_{surf}}{n_a}}{s_{lp}}}
-	\label{nlp,Gen}
-\end{equation}
-
-
-\noindent And if we let loop size $s_{lp}=1$, then,
-
-
-\begin{equation}
-\boxed{n_{lp}:= r-\frac{n_{surf}}{n_a}}
-\label{nlp}
-\end{equation}
-
-%$$ \therefore \text{Number of trains}, n_{tr}:=r-n_{lp}=r- \frac{r-\frac{V_m}{n_a}}{s_{lp}}$$
-%
-%$$\Rightarrow \boxed{n_{tr}:=\frac{r(s_{slp}-1)-\frac{V_m}{n_a}}{s_{lp}}}$$
-
-
-
-
-
-
-
-
-
-
-
-% \noindent loops per chain.   [***NM:  \textit{Delete these three words?}***] \\\\
-
-
-\noindent Relation \ref{nonRev} is a treatment %that essentially "places" the polymers in a dense
-%[***NM:  \textit{it is not specific to ``dense''
-%situations; indeed, it is better in the less dense 
-%situation}***]
-% packing environment and thus 
-where each additional chain placement further restricts the configurations for the successive "placements". 
-
-\begin{equation}
-    \boxed{
-	    \text{non reversing walks:  } q(q-1)^{(\#steps-1)}
-	 }
-	\label{nonRev}
-\end{equation}
-
-\noindent Relation \ref{selfAv} is a treatment that essentially "places" the polymers in a sparse packing environment and thus each additional chain placement has no effect on the available configurations for the succesive "placements".
-
-\begin{equation}
-    \boxed{
-	    \text{self avoiding walks:  } \approx A_i\cdot\mu_i^{(\#steps)}.
+    G(n_a) 
+    =      
+    \frac{
+        \tilde{w}_1
+        \tilde{w}_2
+        \cdots 
+        \tilde{w}_{n_a}
+    }{
+        n_a!
     }
-	\label{selfAv}
+    \label{Gofna}
 \end{equation}
 
-\noindent We proceed with using the approach of relation \ref{selfAv}, which is that of Self Avoiding Walks as a simpler approach as a first order method. Here $\mu_i$ and $A_i$ depend on the choice of lattice\cite{Chen2002,Madras2013}. where $i$ refers to the dimension of the lattice, which in the analysis below will be focused on 2 and 3 dimensions.
-
-
-\noindent So for one chain we want to see where the looping will take place. We have devised a treatment such that the loops will always be atop two adsorbed mers, and it can be observed in Figure 2b, that the looping is in Loop Choice 2, as per the nomenclature of Figure 2c.
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[b]{0.65\textwidth}
-		\centering
-		\includegraphics[scale=0.4]{loopnorm.png}
-		\caption{Looping with an unoccupied site below the looping}
-		\label{loop and train}
-		\end{subfigure}\\
-		\begin{subfigure}[b]{0.7\textwidth}
-			\centering
-			\includegraphics[scale=0.4]{loopsquished.pdf}
-			\caption{convention of the model, no unoccupied spaces below the loop}
-			\label{loop and train}
-		\end{subfigure}\\
-		\begin{subfigure}[b]{0.75\textwidth}
-			\centering
-			\includegraphics[scale=0.45]{loopschoices.png}
-			\caption{visualization of the binomial coefficient of this modelling treatment}
-			\label{loop}
-	\end{subfigure}
-	\caption{Modelling Approach with fixed looplength}
-\end{figure}
-
-\noindent In order to better understand the enumeration scheme of given a set choices for an arbitrary number of loops for a fixed loop length we devised the following graphic below (Figure \ref{arbChoice}).
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[b]{0.6\textwidth}
-		\centering
-		\includegraphics[scale=0.6]{multiloops.png}
-		\caption{arbitrary looping on arbitrary chain length}
-		\label{loop and train}
-	\end{subfigure}\\
-	\begin{subfigure}[b]{1.0\textwidth}
-		\centering
-		\includegraphics[scale=0.35]{LoopingGraphic.pdf}
-		\caption{visualization of the binomial coefficient of chain}
-		\label{loop and train}		
-	\end{subfigure}
-\caption{Scenario with an arbitrary $n_{lp}$}
-\label{arbChoice}
-\end{figure}
 
 
 
-\noindent We Proceed with \ref{selfAv} and multiply this with the number of ways to lay down each chain, which yields the following general relations for 2D and 3D respectively.\\ 
+So for one chain we want to see where the looping will take place. We have devised a treatment such that the loops will always be atop two adsorbed mers. The following factors are used to calculate how these loops will be placed and how the cardinalities of the combinations are computed.\\
 
-
-\noindent So for 2D, we have $q_{2,ch}$ which is
-the number of ways to lay one chain on the surface, for a given starting point,
+We have that the choice of sites of loops on chain is represented by the below binomial coefficient notation,
 
 \begin{equation}
-    \boxed{
-    	q_{2,ch}\approx \left(A_2\cdot (\mu_{2})^{n_{ads}} \cdot \binom{n_{ads}}{n_{lp}} \right), 
+\lr{
+\begin{array}{c}
+     \leng\\
+     n_{lp} 
+\end{array}
+}
+\label{eq.looploc}
+\end{equation}
+
+%%SK: Explain what exactly this is and how it came to be
+as well as the Fleer Factor, 
+\begin{equation}
+    \lr{
+        \frac{
+            \mu_3^{
+                s_{lp}
+            }
+        }{
+            s_{lp}^{2.8}
+        }
+        B_3
     }
-	\label{eq. q2}
+    ^{
+        n_{lp}            
+    }
+\label{FleerFactor}
 \end{equation}
 
-%explain sourcing of this...
-\noindent and for 3D, 
+Putting the above factors together into an expression for the loops, we have $q_{lp}$ which is, the number of ways to configure a loop of that size in a three dimensional cubic lattice.
 
-%had put r-1 initially but then corrected as per statement from madras r x nb as opposed to ()r-1) x nb
 \begin{equation}
-    \boxed{
-	    q_{3,ch}\approx \left(A_3\cdot (\mu_{3})^{r}\right).
-	}
+    q_{lp}
+    := 
+    %
+    \lr{
+    \begin{array}{c}
+         \leng\\
+         n_{lp} 
+    \end{array}
+    }   
+    %
+    ~
+    %
+    \lr{
+                \frac{
+                    \mu_3^{
+                        s_{lp}
+                    }
+                }{
+                    s_{lp}^{2.8}
+                }
+                B_3
+            }
+            ^{
+                n_{lp}            
+    }
+\label{refEnum}
+\end{equation}
+
+Using the relationship from Equation \ref{eq.sawscale}, we have that the number of self avoiding walks from a specific starting point is approximately 
+
+\begin{equation}
+	    \left(A_3\cdot (\mu_{3})^{r}\right).
+	\label{eq. SAW}
+\end{equation}
+
+In terms of notational book-keeping, we assume this to be approximately the value of the partition function for the solution, $q_{vol}$.
+
+\begin{equation}
+	    q_{vol}\approx \left(A_3\cdot (\mu_{3})^{r}\right).
 	\label{eq. q3}
 \end{equation}
 
 
+\paragraph{Fleer Approximation} Presented below is the formulation by Fleer \cite{fleer1993polymers} on the analysis of partition functions with the consideration of looping. This will serve as the scaffolding on which we will build up our own model. The original consideration of tails, energetic factors as well as the interactions, will be ignored in this model.\\
 
-%\noindent To understand this better, if we have 2 loops for an adsorbed chain then we have r-2 sites adsorbed and r-n_{ads} places where loop could go on a walk of r-2 sites. 
-%
-%$$\text{for LP=2,~~~~} q_{tr}\approx A\cdot \mu_{2}^{r-n_{ads}} \cdot \binom{r-n_{ads}}{2}$$
-
-
-
-
-\noindent Here we have adapted Fleer's approximation, 
-%\footnote{this approach does not take into account high density surface coverage, but will be further adapted in higher order approximations.} 
-%
-and we neglect the energetic factor as well as the interactions, that were incorporated by Fleer based on seperate works by Hoeve \cite{hoeve1970general}  and Silberberg \cite{silberberg1968adsorption}.\\\\
-
-\noindent Where, the total number of polymers in the whole system are,
-\begin{equation}
-	n=n_a+n_b,
-	\label{eq. n}
-\end{equation}
-
-\noindent And the partition function for a system of multiple polymers is,
-%[***NM: \textit{I thnk that the term $n!$ in $Q$ is there because $Q$ is counting the number of configurations of $n$ LABELLED chains, i.e.\ all formally distinct from each other, even though they are identical. You should eventually explain why the whole expression for $Q$ is what it is}***]
-
-
+We get the following generalized partition function for the whole system based on the expressions from Fleer\cite{fleer1993polymers}.
 
 \begin{equation}
-	Q=
+	Q(n_a)
+	=
 	n!
 	\left(
-		q_{2,ch}^{n_{a}}
-		\cdot
-		\frac{
-			n_{surf}^{n_{a}}
-		}{
-			n_a!
-		}
-		\cdot
-		q_{3,ch}^{n_{b}}
-		\cdot
+	    G(n_a)
+	    ~
+	    q_{lp}^{n_a}
+	    ~
+		q_{vol}^{n_{b}}
+		~
 		\frac{
 			n_{vol}^{n_{b}}
 		}{
 			n_b!
 		}
 	\right)
-	\label{Qfleer}
+	\label{Qfleer1}
 \end{equation}
 
-\newpage
-\section*{Derivation of Approximation Method}
 
-Combining the above definitions, parameters and expressions we proceed to derive a method for computing the preferential scenario of polymer looping on the surface of a colloid. We begin by substituting \ref{eq. q2} and \ref{eq. q3} into \ref{Qfleer}.
+You will notice that notationally, anything that is dependant on $n_a$ we shall increment by one \textcolor{red}{(one what?)}. For the convenience of the reader, we use the below notation.
 
-\begin{equation}
-	Q(n_a,n_b)=
-	n!
-	\left(~~
-		\left(
-		A_2
-		\cdot 
-		\mu_{2}^{n_{ads}}
-		\cdot 
-		\binom{
-			n_{ads}
-		}{
-			n_{lp}
-		}
-		\right)^{n_{a}} 
-		\cdot
-		\frac{
-			n_{surf}^{n_{a}}
-		}{
-			n_a!
-		}
-		\cdot
-		\left(
-			A_3
-			\cdot
-			\left(
-				\mu_{3}
-			\right)^{r}
-		\right)^{n_{b}}
-		\cdot
-		\frac{
-			n_{vol}^{n_{b}}
-		}{
-			n_b!
-		}
-	\right)
-	\label{Qmadras}
-\end{equation}
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|}
+    \hline
+    Function  & Representation & Representation\\ $f(x)$ & of $f(n_a)$ & of $f(n_a+1)$  \\
+    \hline\hline
+    $G(n_a)$ & $G$  &  $G^{*}$\\  
+    \hline
+    $q_{lp}(n_a)$ & $q_{lp}$  & $q_{lp}^{*}$\\
+    \hline    
+    $n_b(n_a)$ & $n_b$ & $n_b^{*}$\\
+    \hline
+    $\leng(n_a)$ & $\leng$ & $\leng^{*}$\\
+    \hline
+\end{tabular}
+\end{center}
+\caption*{\textbf{Table 1: Functional Representations}}
+\end{table}
 
-\noindent Substituting \ref{nsurf} into \ref{Qmadras}.
+
+This gives us the following expression for     
 
 \begin{equation}
-	Q(n_a,n_b)=
-	n!
+\frac{
+        Q^{*}
+}{
+	    Q
+}
+=
+    \cancel{
+    	\frac{
+    	    n!
+    	}{
+    	    n!
+    	}
+    }
 	\left(
-		A_2^{n_{a}}
-		\cdot 
-		\mu_{2}^{n_{surf}} 
-		\cdot 
-		\binom{
-			n_{ads}
-		}{
-			n_{lp}
-		}^{n_{a}}
-		\cdot
-		\frac{
-			n_{surf}^{n_{a}}
-		}{
-			n_a!
+	    \frac{
+	        G^{*}
+	    }{
+	        G
+	    }
+	    ~
+	    \frac{
+	        \lr{
+	            q_{lp}^{*}
+	        }
+	        ^{
+    	        n_{lp}^{*}
+    	    }
+	    }{
+	        \lr{
+	            q_{lp}	        
+    	    }
+    	    ^{
+    	        n_{lp}
+    	    }
+	    }
+	    ~
+	    \frac{
+    	    q_{vol}^{n_{b}^{*}}
+    	}{
+    	    q_{vol}^{n_{b}}
+    	}
+    	~
+    	\frac{
+    		\frac{
+    			n_{vol}^{n_{b}(n_a+1)}
+    		}{
+    			n_b(n_a+1)!
+    		}
+		}{	
+    		\frac{
+    			n_{vol}^{n_{b}(n_a)}
+    		}{
+    			n_b!
+    		}
 		}
-		\cdot
-		\left(
-		A_3
-		\cdot
-		(\mu_{3})^{r}
-	\right)^{n_{b}}
-	\cdot
-	\frac{
-		n_{vol}^{n_{b}}
-	}{
-		n_b!
-	}
 	\right)
-	\label{Qwithnsurf}
-\end{equation}
-
-\noindent Substituting \ref{nlp} and \ref{nads} into \ref{Qwithnsurf}
-%
-%[***NM:  \textit{Is this the right equation number?}] 
-%
-with $s_{lp}=1$
-
-\begin{equation}
-	Q(n_a,n_b)=\myQ{n_a}{n_b}{\nads{n_a}}{(\nlp{n_a})}{\gOFm{n_a}{n_{surf}}}
-	\label{eq. Qab}
-\end{equation}
-
-\noindent We define relation \ref{gOFm}, for ease of symbolic manipulations.
-
-\begin{equation}
-    \boxed{g(m):= \gOFm{m}{n_{surf}}}
-    \label{gOFm}
+	\label{Eq: RatQ}
 \end{equation}
 
 
-\noindent Comparing $Q(n_a+1,n_b-1)$ and $Q(n_a,n_b)$ so we let,
-
-\begin{equation}
-    \boxed{f(n_a,n_b):=\frac{Q(n_a+1,n_b-1)}{Q(n_a,n_b)}}
-    \label{QfracDEF}
-\end{equation}
+Looking at these ratio factors one by one, starting with
 
 
-\begin{equation}
-f(n_a,n_b)=
+\begin{align}
+\label{nbnvol}
+    \frac{
+        \lr{\displaystyle
+        		\frac{
+        			n_{vol}^{n_{b}^{*}}
+        		}{
+        			n_b^{*}!
+        		}
+        }
+    }{
+        \lr{\displaystyle
+        		\frac{
+        			n_{vol}^{n_{b}}
+        		}{
+        		    \lr{
+        			    n_b
+        		    }!
+        		}
+        	}
+    }\nonumber
+    &=
 	\frac{
-		\myQ{(n_a+1)}{(n_b-1)}{\nads{n_a+1}}{(\nlp{n_a+1})}{g(n_a+1)}
+	    \lr{
+	        \displaystyle
+    		\frac{
+    			n_{vol}^{n_{b}-1}
+    		}{
+    			(n_b-1)!
+    		}
+		}
 	}{
-		\myQ{n_a}{n_b}{\nads{n_a}}{(\nlp{n_a})}{g(n_a)}
-	}
-	\label{eq. Qratio2}
-\end{equation}
-\text{}\\
-
-%  [***NM: \textit{say that you define $f(n_a,n_b)$ to be $Q(n_a+1,n_b-1)/Q(n_a,n_b)$}***]
-\noindent Simplifications lead to the following function of $n_a,n_b$
-
-
-\begin{equation}
-f(n_a,n_b)=\,
-\left(
-    A_2
-\right)
-\cdotp
-\left(
+		\lr{
+		    \displaystyle	
+    		\frac{
+    			n_{vol}^{n_{b}}
+    		}{
+    			n_b!
+    		}
+    	}	
+	}\\
+	&=
 	\frac{
-		g(n_a+1)
+        n_{vol}^{n_{b}-1} 
+    	\times
+    	n_b!
+    }{
+	    n_{vol}^{n_{b}}
+		\times
+		(n_b-1)!
+	}\\
+	&=
+	n_{vol}^{\cancel{n_{b}}-1-\cancel{n_{b}}} 
+	n_b\nonumber\\
+	&=
+	\frac{
+	    n_b
 	}{
-		g(n_a)
-	}
-\right)
-\cdotp
-\left(
-    \frac{
-    	n_{surf}
-    }{
-    	n_a+1
-    }
-\right)
-\cdotp
-\left(
-    \frac{
-    	1
-    }{
-    	\mu_{3}
-    }
-    \right)^r
-\cdot
-\left(
-    \frac{
-        1
-    }{
-        A_3
-    }
-\right)
-\cdot
-\left(
-    \frac{
-    	n_{b}
-    }{
-    	n_{vol}	
-    } 
-\right)
-\label{fnanb}
-\end{equation}
+	    n_{vol} 
+	}\nonumber
+\end{align}
 
-
-
-% [***NM:  \textit{The above expression for $f$ has several errors.  First, $A_3$ should be $1/A_3$. 
-% Second, $\mu_3$ should be raised to the power $r$.   
-% Finally, you did too much cancellation in the big ratio of factorials.  In (\ref{eq. Qratio2}),you have (big fraction 1)$^{n_a+1}$/(big fraction 2)$^{n_a}$.  You seem to have just cancelled the $()^{n_b}$ terms to be left with (big fraction 1)$^1$. However, (big fraction 1) is different from (big fraction 2). So they don't simply cancel.  Here is a way to deal with these big fractions.  
-% Define \[ g(m)=  \left( \frac{
-% \left(\frac{n_{surf}}{m}\right)!}{ 
-% \left(r-\frac{n_{surf}}{m}\right)! 
-% \left(2\frac{n_{surf}}{m}-r\right)!}
-% \right)^m  
-% \]
-% Then you can use the Stirling approximation to get a 
-% simpler expression for $\log g(m)$.}***]
-
-
-\text{}\\
-\noindent Taking the logarithm of the above function, and employing the stirling approximation method (rel. \ref{stirl}) for the logarithms of factorials, we get relation \ref{logf}
+Using a similar manipulation of exponents as that of $n_{vol}$ we get the following,
 
 \begin{equation}
-	\boxed{stirl[x]:=\stirl{x}}
-	\label{stirl}
+\frac{
+    	    q_{vol}^{n_{b}(n_a+1)}
+    	}{
+    	    q_{vol}^{n_{b}(n_a)}
+}
+=
+\frac{
+    1
+}{
+    q_{vol}
+}
+\label{qvoloverqvol}
+\end{equation}
+
+Combining the calculations from Equations \ref{nbnvol} and \ref{qvoloverqvol}
+
+\begin{equation}
+    R_{vol}:=
+    		\frac{
+		    n_b
+		}{
+		    n_{vol} 
+		}
+		~
+    \frac{
+    1
+}{
+    q_{vol}
+}
+   \label{Rvol}
+\end{equation}
+
+We then have,
+
+\begin{align}
+\label{eq. goverg}
+\frac{
+    G^{*}
+}{
+    G
+}
+&=
+\frac{
+    \frac{
+        \tilde{w}_1
+        \tilde{w}_2
+        \cdots 
+        \tilde{w}_{n_a+1}
+    }{
+        (n_a+1)!
+    }   
+}{   
+    \frac{
+        \tilde{w}_1
+        \tilde{w}_2
+        \cdots 
+        \tilde{w}_{n_a}
+    }{
+        n_a!
+    }   
+}\nonumber\\
+&=
+\frac{
+        n_a!
+        \lr{
+            \tilde{w}_1
+            \tilde{w}_2
+            \cdots 
+            \tilde{w}_{n_a+1}
+        }       
+}{ 
+        (n_a+1)!
+        \lr{
+            \tilde{w}_1
+            \tilde{w}_2
+            \cdots 
+            \tilde{w}_{n_a}
+            }
+}\\
+&=
+\frac{
+        \lr{
+            \cancel{
+                \tilde{w}_1
+                \tilde{w}_2
+                \cdots 
+                \tilde{w}_{n_a}
+            }
+            \tilde{w}_{n_a+1}
+        }       
+}{ 
+        (n_a+1)
+        \cancel{
+            \lr{
+                \tilde{w}_1
+                \tilde{w}_2
+                \cdots 
+                \tilde{w}_{n_a}
+                }
+        }
+}\nonumber\\
+&=
+\frac{
+            \tilde{w}_{n_a+1}       
+}{ 
+        (n_a+1)
+}\nonumber
+\end{align}
+
+Where we assign the resulting expression from \ref{eq. goverg} to,
+
+\begin{equation}
+    R_{G}:=
+    \frac{
+                \tilde{w}_{n_a+1}       
+    }{ 
+            (n_a+1)
+    }~~~\textbf{.}
+   \label{Eq: RG}
+\end{equation}
+
+For the factor below we have, 
+%my understanding here is we will leave the simplification to be done by the logarithm. Except if the $n_{lp}\cdot n_a$, reduces to something nicer.
+%we will leave this expression as is given it's complexity, and have it simplified when we take the logarithmic and stirling approximations for the factorials.
+
+\begin{equation}
+\frac{
+    \lr{
+        q_{lp}^{*}
+    }
+}{
+    \lr{
+        q_{lp}
+    }
+}
+=
+\frac{
+        \lr{
+        \begin{array}{c}
+             \leng^{*}\\
+             n_{lp}^{*}
+        \end{array}
+        }^{n_a+1}   
+        ~
+        \lr{
+                    \frac{
+                        \mu_3^{
+                            s_{lp}
+                        }
+                    }{
+                        s_{lp}^{2.8}
+                    }
+                    B_3
+                }
+                ^{
+                    n_{lp}^{*}\cdot (n_a+1)
+                }
+}{
+        \lr{
+        \begin{array}{c}
+             \leng\\
+             n_{lp} 
+        \end{array}
+        }^{n_a}   
+        ~
+        \lr{
+                    \frac{
+                        \mu_3^{
+                            s_{lp}
+                        }
+                    }{
+                        s_{lp}^{2.8}
+                    }
+                    B_3
+                }
+                ^{
+                    n_{lp}\cdot n_a            
+        }
+}
+\label{Eq: qlpoverqlp}
+\end{equation}
+
+We further simplify the below expression,
+
+\textcolor{red}{(purposely didn't use $r-\leng$ here. Also could have just left in terms of $n_{lp}$ and $n_a$ and just simplified...)} 
+
+\begin{align}
+n_{lp}(n_a+1)
+\cdot
+(n_a+1)
+-
+n_{lp}(n_a)
+\cdot
+(n_a)
+&=
+\frac{
+    r
+    -
+    \frac{
+            n_{surf}
+        }{
+            n_a+1
+    }
+}{
+    (s_{lp}-1)
+}
+-
+\frac{
+    r
+    -
+    \frac{
+        n_{surf}
+    }{
+        n_a
+    }
+}{
+    (s_{lp}-1)
+}\nonumber\\
+&=
+\frac{
+    r\cdot (n_a+1)
+    -
+    \cancel{
+        n_{surf}
+    }
+    -
+    r\cdot (n_a)
+    +
+    \cancel{
+        n_{surf}
+    }
+}{
+    (s_{lp}-1)
+} \\
+&=
+\frac{
+    r
+}{
+    (s_{lp}-1)
+}
+\lr{
+    \cancel{
+        n_a
+    }
+    +
+    1
+    -
+    \cancel{
+        n_a
+    }
+}
+=
+\frac{
+    r
+}{
+    (s_{lp}-1)
+},\nonumber
+\end{align}
+
+
+
+and as such we have Equation \ref{Eq: qlpoverqlp} becomes,
+
+\begin{equation}
+    R_{lp}:=
+    \frac{
+        \lr{
+        \begin{array}{c}
+             \leng^{*}\\
+             n_{lp}^{*} 
+        \end{array}
+        }^{n_a+1}   
+}{
+        \lr{
+        \begin{array}{c}
+             \leng\\
+             n_{lp}
+        \end{array}
+        }^{n_a}
+}
+~
+\lr{
+    \frac{
+        \mu_3^{
+            s_{lp}
+        }
+    }{
+        s_{lp}^{2.8}
+    }
+    B_3
+}
+^{
+    \frac{
+        r
+    }{
+        s_{lp}-1
+    }
+}
 \end{equation}
 
 
-\begin{multline}
-	log
-	\left[
-	f(n_a,n_b)
-	\right]
-	=
-	log
-		\left[
-		A_2
-		\right]
-		+
-		log\left[
-            g(n_a+1)
-        \right]
-        -
-        log\left[
-            g(n_a)
-        \right]
-		+
-		log
-		\left[
-		n_{surf}
-		\right]
-		-
-		log
-		\left[
-		n_a+1
-		\right]\\
-		-
-		r
-		\cdot
-		log
-		\left[
-		\mu_{3}
-		\right]
-		-
-		log
-		\left[
-		A_3
-		\right]
-		+
-		log
-		\left[
-		n_{b}
-		\right]
-		-
-		log
-		\left[
-		n_{vol}	
-	\right]
-		\label{logf}
-\end{multline}
+Combining the above results back into Equation \ref{Eq: RatQ}
 
-\noindent Expanding $g(n_a)$ and $g(n_a +1)$.
 
-\begin{multline}
-	log
-	\left[
-	f(n_a,n_b)
-	\right]
-	=
-	log
-		\left[
-		A_2
-		\right]
-		+
-		log\left[
-            \gOFm{n_a+1}{n_{surf}}
-        \right]\\
-        -
-        log\left[
-            \gOFm{n_a}{n_{surf}}
-        \right]
-		+
-		log
-		\left[
-		n_{surf}
-		\right]
-		-
-		log
-		\left[
-		n_a+1
-		\right]
-		-
-		r
-		\cdot
-		log
-		\left[
-		\mu_{3}
-		\right]\\
-		-
-		log
-		\left[
-		A_3
-		\right]
-		+
-		log
-		\left[
-		n_{b}
-		\right]
-		-
-		log
-		\left[
-		n_{vol}	
-	\right]
-		\label{logfexpnd1}
-\end{multline}
+\begin{equation}
+    \frac{
+        Q^{*}
+    }{
+        Q
+    }
+    =
+    R_{G}
+    \times
+    R_{lp}
+    \times
+    R_{vol}
+\label{finalflee}
+\end{equation}
 
-\noindent Expanding the logarithms of $g(n_a)$ and $g(n_a +1)$.
+We now proceed to the following property of logarithms, 
 
-\begin{multline}
-	log
-	\left[
-	    f(n_a,n_b)
-	\right]
-	=
-	log
-	\left[
-		A_2
-	\right]\\
-	+
-	\logOFgOFm{(n_a+1)}\\
+\begin{equation}
+    log
+    \lr{
+    \frac{
+            Q^{*}
+        }{
+            Q
+        }
+    }
+    =
+    log(Q^{*})-log(Q),
+\end{equation}
+
+this leads us to the following simplification for our algorithmic approach, we substitute $log\lrb{Q(n_a)}$ with $Q_{log}$, and let,
+
+\begin{equation}
+log(Q^{*})
+-
+log(Q)
+=
+\Delta Q_{log}.
+\label{eq.letdeltaq}
+\end{equation}
+
+This means that,
+
+\begin{equation}
+    \Delta Q_{log}    
+    =
+    log\lr{
+        R_{G}
+    }
+    +
+    log\lr{
+        R_{lp}
+    }
+    +
+    log\lr{
+        R_{vol}
+    }
+\end{equation}
+
+where,
+
+\begin{align}
+    log
+    \lr{
+    R_{G}
+    }
+    &=
+    log
+    \lr{
+    \frac{
+                \tilde{w}_{n_a+1}       
+    }{ 
+            (n_a+1)
+    }
+    }\\
+    &=
+    log
+    \lr{
+        \tilde{w}_{n_a+1} 
+    }
     -
-    \logOFgOFm{n_a}\\
-	+
-	log
-	\left[
-		n_{surf}
-	\right]
-		-
-		log
-		\left[
-		n_a+1
-		\right]
-		-
-		r
-		\cdot
-		log
-		\left[
-		\mu_{3}
-		\right]
-		-
-		log
-		\left[
-		A_3
-		\right]
-		+
-		log
-		\left[
-		n_{b}
-		\right]
-		-
-		log
-		\left[
-		n_{vol}	
-	\right]
-		\label{logfexpnd1}
-\end{multline}
+    log
+    \lr{
+        (n_a+1)
+    }    
+   \label{Eq: logRG}
+\end{align}
 
-
-\noindent Using the stirling approximation on the logarithms of factorials.
-
-\begin{multline}
-	log
-	\left[
-	    f(n_a,n_b)
-	\right]
-	=
-	log
-	\left[
-		A_2
-	\right]\\
-	+
-	\StirlOFgOFm{(n_a+1)}\\
+\begin{align}
+     log
+     \lr{
+        R_{vol}
+    }
+    &=
+    log
+    \lr{
+    	\frac{
+		    n_b
+		}{
+		    n_{vol} q_{vol}
+		}
+    }\\
+    &=
+    log
+    \lr{
+        n_b
+    }
     -
-    \StirlOFgOFm{n_a}\\
-	+
-	log
-	\left[
-		n_{surf}
-	\right]
-		-
-		log
-		\left[
-		n_a+1
-		\right]
-		-
-		r
-		\cdot
-		log
-		\left[
-		\mu_{3}
-		\right]
-		-
-		log
-		\left[
-		A_3
-		\right]
-		+
-		log
-		\left[
-		n_{b}
-		\right]
-		-
-		log
-		\left[
-		n_{vol}	
-	\right]
-		\label{stirlOFexpnd1}
-\end{multline}
+    log
+    \lr{
+        n_{vol}
+    }
+    -
+    log
+    \lr{
+        q_{vol}
+    }    
+\end{align}
 
-\noindent The function from expression \ref{fnanb} is a method that compares two adjacent [there's a better way of saying this] polymer attachment scenarios. This tool enables to find where two attachment scenarios are equivalent in Q partition functions which is represented by $f(n_a,n_b)$ being equal to unity, and thus we have located a preferential scenario for looping. This process will be done through an iterative process described in the algorithm in the next section.
+\begin{align}
+\label{eq.LogRvol1}
+log
+\lr{
+    R_{lp}
+}
+&=
+\lr{n_a+1}   
+log
+\lr{
+    \begin{array}{c}
+    \leng^{*}\\
+    n_{lp}^{*} 
+    \end{array}
+}
+-
+\lr{n_a}
+log
+\lr{
+\begin{array}{c}
+     \leng\\
+     n_{lp}
+\end{array}
+}
++
+\lr{
+    \frac{
+        r
+    }{
+        s_{lp}-1
+    }
+}
+log
+\lr{
+    \frac{
+        \mu_3^{
+            s_{lp}
+        }
+    }{
+        s_{lp}^{2.8}
+    }
+    B_3
+}
+\nonumber\\
+&=
+\lr{n_a+1}   
+log
+\lr{
+    \facto{
+        \leng^{*}
+    }{
+        n_{lp}^{*}
+    }
+}
+-
+\lr{n_a}
+log
+\lr{
+    \facto{
+        \leng
+    }{
+        n_{lp}
+    }
+}
+\\
+&\qquad\qquad\qquad
+\qquad\qquad\qquad
+\qquad\qquad\qquad
+\qquad
++
+\lr{
+    \frac{
+        r
+    }{
+        s_{lp}-1
+    }
+}
+log
+\lr{
+    \frac{
+        \mu_3^{
+            s_{lp}
+        }
+    }{
+        s_{lp}^{2.8}
+    }
+    B_3
+}\nonumber
+\end{align}
 
-\section*{Algorithm\textcolor{red}{clean this up!!!}}
+We let, 
+\begin{align}
+H&:=
+log
+\lr{
+\facto{
+    \leng
+}{
+    n_{lp}
+}
+}\\
+H^{*}
+&:=
+log
+\lr{
+\facto{
+    \leng^{*}
+}{
+    n_{lp}^{*}
+}
+}
+\end{align}
 
+Therefore $H$ is equal to,
 
-%=======================================================================================
-%%the figure has errors in the code so I am commenting it out until further notice
-% \begin{figure}[h!]
-% 	\centering
-% 	\includegraphics[scale=0.85]{loopFigure_1.png}
-% 	\caption{Multi-Chain Length Ratio Looping Ratio Comparison}
-% 	\label{Multi}
-% \end{figure}
-%=======================================================================================
+\begin{equation}
+\lrb{
+    \stirl{
+        \leng
+    }
+}
+-
+\lrb{
+    \stirl{
+        n_{lp}
+    }
+}
+-
+\lrb{
+    \stirl{
+        \leng
+        -
+        n_{lp}
+    }
+},
+\end{equation}
 
-% \begin{figure}[h!]
-% 	\centering
-% 	\includegraphics[scale=0.85]{plotFigure_2.png}
-% 	\caption{Long Chain Length Looping Ratio Plot}
-% 	\label{Long}
-% \end{figure}
+and $H^*$ is equal to,
 
+\begin{equation}
+\lrb{
+    \stirl{
+        \leng^{*}
+    }
+}
+\lrb{
+    \stirl{
+        n_{lp}^{*}
+    }
+}
+-
+\lrb{
+    \stirl{
+        \leng^{*}
+        -
+        n_{lp}^{*}
+    }
+}
+\end{equation}
 
-% \begin{figure}[h!]
-% 	\centering
-% 	\includegraphics[scale=0.85]{plotFigure_3.png}
-% 	\caption{Arbitrary Chain Length Looping Ratio Plot}
-% 	\label{Arbitrary}
-% \end{figure}
+We then can say that Equation \ref{eq.LogRvol1} becomes,
 
+\begin{align}
+log
+\lr{
+    R_{vol}
+}
+&=
+\lr{n_a+1}   
+H^{*}
+-
+\lr{n_a}
+H
++
+\lr{
+    \frac{
+        r
+    }{
+        s_{lp}-1
+    }
+}
+\lrb{
+    log
+    \lr{
+        \mu_3
+    }
+    +
+    log
+    \lr{
+    B_3
+    }            
+    -
+    \lr{2.8}
+    log
+    \lr{
+        s_{lp}
+    }
+}
+\end{align}
 
+% \newpage
+% \section{Algorithm}
 
-% \begin{figure}[h!]
-% 	\centering
-% 	\includegraphics[scale=0.85]{plotFigure_4.png}
-% 	\caption{Short Chain Length Looping Ratio Plot}
-% 	\label{Short}
-% \end{figure}
+% \newpage
+% \section{Validation}
 
-\begin{algorithm}[H]
-	\begin{algorithmic}
-		\State $res \gets [~]$
-		\State $reslog \gets [~]$
-		\State $\mu_2 \gets 2.638$
-		\Comment{constant $\mu_2$, provided in Madras et al table 1.1}
-		\State $\mu_3 \gets 4.684$
-		\Comment{constant $\mu_3$, provided in Madras et al table 1.1}
-		\State $A_2 \gets 1.1771$
-		\Comment{Amplitude constant, https://polymerdatabase.com/polymer\%20physics/SAW.html}
-		\State $A_3 \gets 1.205$
-		\Comment{Amplitude constant, https://polymerdatabase.com/polymer\%20physics/SAW.html}
-		\State $n_{surf} \gets 1437$
-		\Comment{number of 1mer sites on surface lattice (we assumed an aggregate surface area)} 			
-		\State $r \gets 229$
-		\Comment{capacity of surface}
-		\State $n_0 \gets n_{surf}+220$
-		\State $n_a \gets n_0$
-		\State $n_{vol} \gets \frac{n_{surf}}{3}$
-		\Comment{$n_{vol}$ arb selected size, say $n_surf$/3 or $n_surf$/10}
-		\State $n_L \gets 3 \times n_a$
-		\Comment{number chains in the system, assume $n_L >>a$ this is an arbitrary quantity}\\
-		\Function{StirlingApprox}{$x$}\\
-		\Return \stirl{x}
-		\EndFunction\\
-		\Function{$logf$ }{$n_a,n_b$}\\
-		\Return $log
-        	\left[
-        		A_2
-        	\right]
-        	+
-        	\StirlOFgOFm{(n_a+1)}$\\
-            $~~~~~~~~~-
-            \StirlOFgOFm{n_a}
-        	+
-        	log
-        	\left[
-        		n_{surf}
-        	\right]
-        		-
-        		log
-        		\left[
-        		n_a+1
-        		\right]$\\
-        		$~~~~~~~~~-
-        		r
-        		\cdot
-        		log
-        		\left[
-        		\mu_{3}
-        		\right]
-        		-
-        		log
-        		\left[
-        		A_3
-        		\right]
-        		+
-        		log
-        		\left[
-        		n_{b}
-        		\right]
-        		-
-        		log
-        		\left[
-        		n_{vol}	
-        	\right]$
-		\EndFunction\\
-		\For{$j \in [n_0,~n_0+22]$}\\
-		$logf(j,n_b)$
-		\EndFor\\
-		\textbf{PRINT} Plot
-	\end{algorithmic}
-\end{algorithm}
-
-\newpage
-\section*{Further Considerations\textcolor{red}{[Candidate for Discussion]}}
-\subsection*{Maximal Chains On Surface: Stopping Criterion}
-
-We also seek to find the maximal number of loops. This can be done by deciding what the minimal number of trains would look like. Then for that value of trains we solve for the number of loops, this value is also going to be the stopping criterion for our problem.
-
-
-
-\subsection*{Convexity Hypothesis}
-In the modelling a pertinent question is given the fixed loop length, what is te preference of the system when it comes to loop generation distribution on the lattice. In other words we want to check if the shrinkage of the chains on the surface is shared equally. It could either be the case of a preference to the extremes of looping in high densities or that overall, there's uniform generation of loops throughout the lattice (with a consideration of very few outliers). In order to find out the preference we must test for convexity.\\
-
-\noindent Given a partition function if as we increase the distance of the looped elements from the main diagonal we notice a jump in the contribution of the partition we can safely say there is a preference for boundary behaviours, whereas if the converse is true than we have a uniform generation of loops and can proceed with a convex approach.\\\\
-
-\noindent Let partition function be: $F(Lp_1,Lp_2, \cdots)$ with $Lp_1\geq Lp_2$ if\\
-
-\noindent We have a scenario of convexity and thus uniform loop generation, if the below is true.
-
-$$F(Lp_1,Lp_2, \cdots)\leq F(Lp_1-1,Lp_2+1, \cdots)$$
-
-\noindent Otherwise, if we notice,
-$$F(Lp_1,Lp_2, \cdots)\geq F(Lp_1-1,Lp_2+1, \cdots)$$ 
-
-\noindent then we have the scenario of loops forming in clusters as opposed to uniformly throughout the lattice.
-
-
-
- 
-
-
-
-
-
-
-\newpage
-\section*{Appendix A: Nomenclature of Model by Fleer et al.}
-The approximation we shall use is the one provided by Fleer et al.\cite{fleer1993polymers} and the the parameters of model are the following.\\\\
-%
-\begin{tabular}{c|l}
-\hline
-\textbf{r:} & is number of segments per chain,\\
-\textbf{s:} & is the number of segments \\ 
-$\mathbf{s_{lp}(s):}$ &is the (fixed) length of loops on an adsorbed chain.\\
-$\mathbf{s_{tr}(s):}$ &is the length of trains on an adsorbed chain.\\
-$\mathbf{n_{tr}(s):}$ & is the number of trains of length \textbf{s}  on the adsorbed chain.\\
-$\mathbf{n_{tl}(s):}$ &is the number of tails, of length \textbf{s}  on the adsorbed chain.\\
-$\mathbf{n_{lp}(s):}$ &is the number of loops, of length \textbf{s}  on the adsorbed chain.\\
-\textbf{l:}&bond length, lattice step length\\
-\textbf{z:}&distance where walk terminates\\
-$\mathbf{n_a:}$ &number of adsorbed chains\\
-$\mathbf{n_b:}$&number of chains in solution\\
-$\mathbf{q_{ch}}$&partition function of one adsorbed chain,\\
-$\mathbf{A,A^{*}:}$& mixing of energetic param. of segmenet and solvent molecules\footnotemark \\
-$\mathbf{\lambda_1:}$&probability of $\Delta z=-l$ or $l$\\
-$\mathbf{\lambda_0:}$ &probability $\Delta z=0$\\
-$\mathbf{\chi_{s}:}$ &Adsorption energy parameter\\
-$\mathbf{q_{tr}(s)}$: & partition function of a train of segments, include energetic component $e^{\chi_s}$.\\
-$\mathbf{\omega_{tl}(s)}$:&partition function of a tail of segments\\
-$\mathbf{\omega_{lp}(s)}$:&partition function of a loop of segments\\
-$\mathbf{\omega_0(z,s+1)}$:&approximation of $\omega_0(z,s)$ using CLT for $s>>>0$ \\
-$\mathbf{\omega_{0}(z,s)}$:& $\frac{\Omega_0(z,s)}{\Omega_0(s)}$\\
-$\mathbf{\omega_{0}(z,s,k)}$:& $\frac{\Omega_0(z,s,k)}{\Omega_0(s)}$\\
-$\mathbf{\Omega_{0}(s)}$:& degeneracy of a free walk of s segments.\\
-$\mathbf{\Omega_{0}(z,s)}$:&degeneracy of a free walk of s segments ending at z.\\
-&(ie; How many possibilities $\Omega_{0}(z,s)$ exist for a walk that is terminated at z and has s-1 steps?)\\
-$\mathbf{\Omega_{0}(z,s,k)}$: & degeneracy of a free walk of s segments ending at z, having k steps in the z direction.\\
-$\mathbf{\Omega_{res}(s)}$:&degeneracy of a restricted walk of s segments.\\
-$\mathbf{\Omega_{res}(z,s)}$:&degeneracy of a restricted walk of s segments ending at z.\\
-$\mathbf{\Omega_{res}(z,s,k)}$:&degeneracy of a restricted walk of s segments ending at z, having k steps in the z direction.\\
-\hline
-\end{tabular} 
-\footnotetext{We ignore the effects of mixing and interaction in our approximation}
-		
-		
-		
-		\begin{itemize}
-			\item $\omega_0(z,s+1)=(4\pi\lambda_1s)^{-\frac{1}{2}} \cdot(e^{\frac{-z^2}{4\lambda_1 s l^2}})$,
-			\item $\omega_{tl}(s)=\lambda_1 \cdot(\omega_0(0,s)+\omega_0(l,s))$,
-			\item $\omega_{tl}(s+1)=\frac{\lambda_1}{\pi s}$,  (Approximation by CLT, for $s>>0$) 
-			\item $\omega_{lp}(s)=\frac{\lambda_1}{s}\omega_0(l,s+1)$,  
-			\item $\omega_{lp}(s)=\left(\frac{\lambda_1}{4\pi}\right)^{\frac{1}{2}}s^{-\frac{3}{2}}$, (Approximation by CLT, for $s>>0$) 
-			\item $q_{tr}(s)={\lambda_0}^{s-1}\cdot e^{s\chi_s}$
-			\item$\displaystyle q_{ch}=\sum \left[n_{tr}!\prod_{s}\frac{\left(q_{tr}(s)\right)^{n_{tr}(s)}}{n_{tr}(s)!}\right]\cdot\left[n_{lp}!\prod_{s}\frac{\left(\omega_{lp}(s)\right)^{n_{lp}(s)}}{n_{lp}(s)!}\right]\cdot\left[\prod_{s}\left(\omega_{tl}(s)\right)^{n_{tl}(s)}\right]$~~~~~~\footnote{We ignore the affect of tails so we remove that from the factors $q_{ch}$.}\\
-			 $\displaystyle\text{Subject to:  } s\cdot \sum_{s} n_{tr}(s)+s\cdot \sum_{s} n_{lp}(s)+s \cdot \sum_{s} n_{tl}(s)=r$\\
-			 $n_{tr}=n_{lp}+1$\\
-			 $n_{tl}=2$
-			\item $\displaystyle Q=n!\sum_{n_a,n_b}\left(q_{ch}^{n_{a}}\frac{V_{m}^{n_{a}}}{n_a!}\frac{V^{n_{b}}}{n_b!}\right)\cdot \left(e^{^{\frac{A-A^{*}}{kT}}}\right)$
-		\end{itemize}
+% \newpage
+% \section{Discussion}
 
 
-
- 
-% \subsection*{Assumptions and Model Parameters}
-% \textbf{}\\
-% \begin{center}
-% \begin{tabular}{r|c|l}
-% 	\textbf{Topic} & \textbf{Acronyms} & \textbf{Assumptions \& Comments} \\ 
-% 	&\textbf{\& Figures}&\\
-% 	\hline
-% 	&&\\
-% 	Coverage&  &Assuming full coverage scenario for n-mer chains being attached to\\ &&the spherical surface. \\ &&(Feb11-upd) It is actually not considered full coverage as we remove mers\\ &&to create loops. It is a temporary capping process of salt molecules\\
-% 	&&\\
-% 	\hline
-% 	&&\\ 	
-% 	Lattice Geometry& Figure 1 & Original spherical lattice surface shall be approximated by a\\ &&rectangular surface lattice\\
-% 	&&\\
-% 	\hline
-% 	&&\\ 
-% 	Lattice Site Distibution& Figure 2 & Initial distribution of sites that will be a uniform mesh of rectangles with\\ &&area 1 Mer. We can assume that the attachment sites on the surface will\\ &&in every scenario be uniformly spaced due to repulsion effects \\
-% 	&&\\
-% 	\hline
-% 	&&\\ 
-% 	Tails& $n_{tl}(s)~,$&We also will only focus on loops and for the time and ignore the effect of\\ &Figure 3&tails as they may complicate our first order approximation greatly.\\
-% 	&&\\
-% 	\hline
-% 	&&\\ 
-% 	%good template of max length
-% 	Energetic Factor (Stickyness)& $e^{X_{S}}$&  Initially, shall ignore the compounding factor $e^{x_S}$ in the \\ &&modelling, but later attempt to have it incorporated.We are hoping that in\\ &&every case but the partial scenarios, it will drop,\\
-% 	&&\\
-% 	\hline
-% 	&&\\ 
-% 	Partial Adsorbtion& $\vdots$& We also would like to consider scenarios of partial adsorbtion,\\&&in further iterations\\
-% 	&&\\
-% 	\hline
-% 	&&\\ 
-% 	Stiffness/Flexibility& $\vdots$& A recommendation for further extensions\\
-% 	&&\\ 
-% 	\hline 
-% \end{tabular}
-% \end{center}
-
-
-
-%\begin{figure}[h!]
-%	\includegraphics[scale=0.1]{lattice.pdf}
-%\end{figure}
-\newpage
-% \begin{figure}[h!]%makes it stay in the section
-% 	\centering
-% 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\centering
-% 		\includegraphics[scale=0.1]{latticeDense.pdf}
-% 		\caption{Highest Charge \\Density}
-% 		\label{fig:gull}
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\centering
-% 		\includegraphics[scale=0.1]{latticeMid.pdf}
-% 		\caption{Lower Charge \\Density}
-% 		\label{fig:gull}	
-% 	\end{subfigure}
-% 	\begin{subfigure}[b]{0.45\textwidth}
-% 		\centering
-% 		\includegraphics[scale=0.1]{latticeSparse.pdf}
-% 		\caption{Lowest Charge \\Density}
-% 		\label{fig:gull}
-% 	\end{subfigure}
-% 	\caption{Initial Spherical Lattices}
-% \end{figure}
-
-
-% \begin{figure}[h!]%makes it stay in the section
-% 	\centering
-% 	\begin{subfigure}[b]{0.3\textwidth}
-% 		\centering
-% 		\includegraphics[scale=0.35]{squarelatticeDense.pdf}
-% 		\caption{Highest Charge \\Density}
-% 		\label{fig:gull}
-% 	\end{subfigure}~~~~~~~~~~~
-% 	\begin{subfigure}[b]{0.3\textwidth}
-% 		\centering
-% 		\includegraphics[scale=0.53]{squarelatticeMid.pdf}
-% 		\caption{Lower Charge \\Density}
-% 		\label{fig:gull}	
-% 	\end{subfigure}~~~~~~~~~~~
-% 	\begin{subfigure}[b]{0.3\textwidth}
-% 		\centering
-% 		\includegraphics[scale=0.98]{squarelatticeSparse.pdf}
-% 		\caption{Lowest Charge \\Density}
-% 		\label{fig:gull}
-% 	\end{subfigure}
-% 	\caption{Approximation to square lattice}
-% \end{figure}
-
-% \textbf{}\\
-% \begin{figure}[h!]
-% 	\centering
-% 	\includegraphics[scale=0.5]{Clipboard.png}
-% 	\caption{Illustration of trains,tails, loops\cite{fleer1993polymers}}
-% 	\label{fig:gull}
-% \end{figure}
-
-
-\newpage
-\section*{Appendix C: Parameter Calculation}
-
-\begin{figure}[h!]%makes it stay in the section
-    \centering
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[scale=0.5]{c-c.jpg}
-        \caption{Single Mer}
-        \label{fig:gull}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[scale=0.25]{fig2.jpg}
-        \caption{Sphere}
-        \label{fig:mouse}
-    \end{subfigure}
-    \caption{}
-\end{figure}
-
-\begin{figure}[h!]
-\centering
-\includegraphics[scale=0.4]{angles.jpeg}
-\caption{Single Mer}
-\end{figure}
-
-
-\noindent \textbf{(1)}$\textbf{N}_{Short} \approx 27~Mers$\\
-\textbf{(3)}$\textbf{N}_{Long} \approx 6200~Mers$\\
-\textbf{(4)} $E[~2\cdot r_{sphere}~]\approx 85~nm$\\
-\textbf{(5)} $\mathbb{L}_{\scalebox{.82}{$\scriptscriptstyle \chemfig{C-C}$}}=.154~nm$\\
-\textbf{(6)} $\mathbb{L}_{\scalebox{.82}{$\scriptscriptstyle \chemfig{C=O}$}}=.745~nm$\\
-\textbf{(7)} $\mathbb{L}_{\scalebox{.82}{$\scriptscriptstyle \chemfig{C-H}$}}=.109~nm$\\
-\textbf{(8)} $\phi_{\scalebox{.7}{$\scriptscriptstyle \chemfig{C-O,C=O}$}}=\frac{2\pi}{3}\Rightarrow$Orth.Triangle has, $\theta=\frac{\pi}{3}$\\
-\textbf{(9)} $\mathbb{L}_{\scriptscriptstyle Short}\approx8.3~nm$\\
-\textbf{(10)} $\mathbb{L}_{\scriptscriptstyle Long}\approx 1910~nm$\\
-\textbf{(11)} $\textbf{Area}_{\scriptscriptstyle Sphere} \approx 2300~nm^2$\\
-\textbf{(12)} $\textbf{H}_{\scriptscriptstyle Figure2}=cos\theta \cdot (\mathbb{L}_{\scalebox{.82}{$\scriptscriptstyle \chemfig{C=O}$}})=cos(\frac{\pi}{3}) \cdot(.745)=.373~nm$\\
-\textbf{(13)} $\textbf{TotalHeight}_{SingleMer}=H+\mathbb{L}_{\scalebox{.82}{$\scriptscriptstyle \chemfig{C-H}$}}=(.373)+(.109)=.482~nm$\\
-\textbf{(14)} $\textbf{TotalLength}_{SingleMer} = 2 \cdot \mathbb{L}_{\scalebox{.82}{$\scriptscriptstyle \chemfig{C-C}$}} = .308~nm$\\
-\textbf{(15)} $\textbf{Area}_{\scriptscriptstyle SingleMer} =(.482) \cdot(.308) =.148~nm^2$\\
-\textbf{(16)} $\textbf{Area}_{\scriptscriptstyle ShortMer} =\textbf{Area}_{\scriptscriptstyle SingleMer}\cdot N_{Short}=(.148)\cdot 27\approx 3.99 ~nm^2$\\
-\textbf{(17)} $\textbf{Area}_{\scriptscriptstyle LongMer} =\textbf{Area}_{\scriptscriptstyle SingleMer}\cdot N_{Long}=(.148)\cdot 6200 \approx 918~nm^2$
-
+% \newpage
+% \section{Conclusion}
 
 
 \newpage
