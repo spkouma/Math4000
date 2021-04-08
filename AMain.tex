@@ -27,6 +27,7 @@
 \usepackage{lipsum}
 \usepackage{tcolorbox}
 \usepackage{units}
+\usepackage{mathrsfs}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %   a header of sorts..                           %
@@ -39,6 +40,8 @@
 \newcommand{\norms}[2]{\ensuremath{\norm{#1}_{#2}}}
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\Cx}{\mathbb{C}}
+\newcommand{\fop}{\ensuremath{\mathcal{F}}}
+\newcommand{\schw}{\ensuremath{\mathscr{S}}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %To remove auto indenting
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -218,10 +221,22 @@
 \newpage
 \section{Modelling Setup and Approach}
 
-\subsection{Parameters, Definitions}
-\textbf{Sites:} The nodes (dots) on figure \ref{fig:loopSchem}\\
+\subsection{Preamble}
 
-\textbf{Steps:} The edges (links) between the nodes on figure 
+For the reader not fortunate enough to have been previously exposed to the wonderful world of random walks on a lattice, we proceed to clarify that the correspondence of polymer modelling with that of walks on a lattice. For example, the term polymer is instead referred to as a chain. Subsequently, the mers of a polymer correspond to that of sites on a chain. Important to clarify is that both the polymer and the surface of adsorption have sites, and from the perspective of the polymer this is the point on the polymer that will be in contact with the corresponding point on the lattice.
+\textcolor{red}{(This may need some additional pruning, but for now is here as a remark.)} 
+Similarly we have that steps are the modeller's way to refer to the bonds between a pair of mers on  a polymer. Henceforth, given that this approach will be entertained from the modelling perspective we will be consistent to the use of the newly introduced terminology from the discipline of random walks.\\
+
+% \textcolor{red}{Concept of a walk (SAW)?, Concept of polygons (SAP)?, Self Avoiding?, Non reversing?,anything I missed?}
+
+
+
+The type of walk focused on in this work, is that of a self avoiding walk on a lattice. This is a random path which "avoids" sites that it has already occupied. A self avoiding polygon is a subclass of self avoiding walks, with end-point vertex being adjacent to the origin of the walk \cite{guttmann1988self}.\\
+
+\subsection{Parameters, Definitions}
+\textbf{Sites:} The nodes on figure \ref{fig:loopSchem}\\
+
+\textbf{Steps:} The edges between the nodes on figure 
 \ref{fig:loopSchem}.\\
 
 $
@@ -336,10 +351,10 @@ Number of loops in one chain.\\
 
 $
 \boldsymbol{
-    \bar{n}_{lp}
+    N_{lp}
 }
 $: 
-Number of loops on average per chain.\\
+number of \underline{sites} in a chain, that reside in loops.\\
 
 $\leng$: number of sites of a chain that are on the surface.\\
 
@@ -350,9 +365,39 @@ $\leng-1$: number of steps of a chain that are on the surface, including the "ph
 
 \paragraph{Intuition of the Above Quantities Using a Concrete Example} The explanation will be based on a concrete example of a single chain with one loop, this example is illustrated in Figure \ref{fig:loopSchem}.\\
 
-An example of $\boldsymbol{\leng-1}$ would be steps (links), the the red segment (1-17) including the green segment.\\
+An example of 
+$
+\boldsymbol{
+\leng-1
+}
+$ 
+would be steps, the the red steps of 
+$
+\boldsymbol{
+step_{(1)}
+}
+$ 
+to 
+$
+\boldsymbol{
+step_{(17)}
+}
+$ 
+including the green segment.\\
 
-An illustration of $\boldsymbol{\leng}$ would be steps (links), the the red segment (1-17) discluding the green segment.\\
+An illustration of $\boldsymbol{\leng}$ would be steps, the red steps ie; 
+$
+\boldsymbol{
+step_{(1)}
+}
+$ 
+to 
+$
+\boldsymbol{
+step_{(17)}
+}
+$ 
+excluding the green "phantom" step.\\
 
 Now, in the case of enumerating \underline{sites} of a specific loop, we have that
 $
@@ -362,7 +407,30 @@ $
     1
 }
 $
-would be the blue segment (4-14) including the sites (nodes) linking the red segment to the blue segments which are labelled as that of: $node_{(3,4)}$ and $node_{(14,15)}$.\\
+would be the blue steps of 
+$
+\boldsymbol{
+step_{(4)}
+}
+$ 
+to 
+$
+\boldsymbol{
+step_{(14)}
+}
+$ 
+including the sites linking the red segment to the blue segments which are labelled as that of: 
+$
+\boldsymbol{
+site_{(3,4)}
+}
+$ 
+and 
+$
+\boldsymbol{
+site_{(14,15)}
+}
+$.\\
 
 For the case of
 $
@@ -372,7 +440,29 @@ $
     1
 }
 $
-we are enumerating \underline{sites} of a specific loop that \underline{do not lie in the surface} (ie; exclusively reside in the 3D lattice) it would be the blue segment (4-14) excluding the sites (nodes) linking the red segment to the blue segments, namely that of: $node_{(3,4)}$ and $node_{(14,15)}$.\\
+we are enumerating \underline{sites} of a specific loop that \underline{do not lie in the surface} (ie; exclusively reside in the 3D lattice) it would be the blue steps ie; 
+$
+\boldsymbol{
+step_{(4)}
+}
+$ 
+to 
+$
+\boldsymbol{
+    step_{(14)}
+}
+$ excluding the sites between that link the red chain to the blue chain, namely that of: 
+$
+\boldsymbol{
+site_{(3,4)}
+}
+$ 
+and 
+$
+\boldsymbol{
+site_{(14,15)}
+}
+$.\\
 
 Now in the case of $
 \boldsymbol{
@@ -381,7 +471,30 @@ Now in the case of $
     1
 }
 $
-we are enumerating \underline{step} (ie; the numerically labelled steps (edges or bonds) of a specific loop of the loop, namely that of: $(4,14)$ and excluding the green segment (ie the direct single step link between 3 and 15).
+we are enumerating \underline{steps} of a specific loop, namely the blue steps between and including that of: 
+$
+\boldsymbol{
+    step_{(4)}
+}
+$ 
+and 
+$
+\boldsymbol{
+    step_{(14)}
+}
+$ 
+and excluding the green segment, being the phantom step between 
+$
+\boldsymbol{
+site_{(3,4)}
+}
+$ 
+and 
+$
+\boldsymbol{
+site_{(14,15)}
+}
+$.
 
 \begin{figure}[H]
     \centering
@@ -406,7 +519,7 @@ we are enumerating \underline{step} (ie; the numerically labelled steps (edges o
 
 
 \begin{equation}
-    \bar{n}_{lp}:=r-\leng=r-\frac{n_{surf}}{n_a}
+    N_{lp}:=r-\leng=r-\frac{n_{surf}}{n_a}
 	\label{eq.mean_nlp}
 \end{equation}
 
@@ -514,8 +627,8 @@ available sites for the first monomer.
 %
 Recall that  $q$ is the number of neighbors of each site in the surface lattice.
 %
-When considering the adsorption of the first chain without any other chains on the surface, there would be $q$ choices for the second monomer in the chain,
-and $q-1$ choices for each monomer after that 
+When considering the adsorption of the first chain without any other chains on the surface, there would be $\lambda$ choices for the second monomer in the chain,
+and $\lambda-1$ choices for each monomer after that 
 %
 %(here we are using the non-reversed walk model of a polymer instead of the fully self-avoiding model).  
 %
@@ -532,7 +645,7 @@ $$
 of being available.  
 This results in
 $$
-q
+\lambda
 \frac{
     n_a
     \leng
@@ -552,7 +665,10 @@ $$
 $$
 so there are
 $$
-(q-1)
+(
+\lambda
+-1
+)
 \frac{
 n_a
 \leng
@@ -567,14 +683,14 @@ a\leng
 $$
 choices for the $(i+1)^{th}$ monomer in this chain. We conclude that 
 \begin{eqnarray}
-   \tilde{w}_k  & = &   [a\leng_L-(k-1)\leng_L]\,\times \,q\left(\frac{ a\leng_L-(k-1)\leng_L-1}{a\leng_L}\right)    \,\times
+   \tilde{w}_k  & = &   [a\leng-(k-1)\leng]\,\times \,\lambda\left(\frac{ a\leng-(k-1)\leng-1}{a\leng}\right)    \,\times
    \nonumber    \\
    & &    \hspace{22mm}
-     \prod_{i=2}^{\leng_L-1}(q-1)\left(\frac{ a\leng_L-(k-1)\leng_L-i}{a\leng_L}\right)  
+     \prod_{i=2}^{\leng-1}(\lambda-1)\left(\frac{ a\leng-(k-1)\leng-i}{a\leng}\right)  
       \nonumber \\
- & = &    \frac{[a\leng_L-(k-1)\leng_L]!}{[a\leng_L-k\leng_L]!} \,q\,  \frac{(q-1)^{\leng_L-2}}{(a\leng_L)^{\leng_L-1}}  
+ & = &    \frac{[a\leng-(k-1)\leng]!}{[a\leng-k\leng]!} \,\lambda\,  \frac{(\lambda-1)^{\leng-2}}{(a\leng)^{\leng-1}}  
      \nonumber    \\
-     & = &    \frac{[a\leng_L-(k-1)\leng_L]!}{[a\leng_L-k\leng_L]!}   a\leng_L \frac{q}{(q-1)^2}\left(  \frac{q-1}{a\leng_L}\right)^{\leng_L}.
+     & = &    \frac{[a\leng-(k-1)\leng]!}{[a\leng-k\leng]!}   a\leng \frac{\lambda}{(\lambda-1)^2}\left(  \frac{\lambda-1}{a\leng}\right)^{\leng}.
      \label{eq.wk2supp}
 \end{eqnarray}
 
@@ -606,13 +722,13 @@ We then take into account Equation \ref{eq.nsurf} which leads to the following s
    }   
     n_{surf}
    \frac{
-        q
+        \lambda
    }{
-        (q-1)^2
+        (\lambda-1)^2
    }
    \left(
         \frac{
-            q
+            \lambda
             -
             1
         }{
@@ -629,8 +745,8 @@ For the set corresponding to all iterations for up to and including the full cov
 
 
 \begin{equation}
-    G(n_a) 
-    =      
+    \fop(n_a) 
+    :=      
     \frac{
         \tilde{w}_1
         \tilde{w}_2
@@ -647,6 +763,9 @@ For the set corresponding to all iterations for up to and including the full cov
 
 So for one chain we want to see where the looping will take place. We have devised a treatment such that the loops will always be atop two adsorbed mers. The following factors are used to calculate how these loops will be placed and how the cardinalities of the combinations are computed.\\
 
+
+% \textcolor{red}{(Missing: Explaining/illustrating the concept of concatenating the two surface segments into one contiguous train, *version 1 of my note from meeting)}\\
+
 We have that the choice of sites of loops on chain is represented by the below binomial coefficient notation,
 
 \begin{equation}
@@ -660,7 +779,7 @@ We have that the choice of sites of loops on chain is represented by the below b
 \end{equation}
 
 %%SK: Explain what exactly this is and how it came to be
-as well as the Fleer Factor, 
+as well as the Fleer Factor, this is the number of possible loops over a phantom bond.
 \begin{equation}
     \lr{
         \frac{
@@ -668,7 +787,23 @@ as well as the Fleer Factor,
                 s_{lp}
             }
         }{
-            s_{lp}^{2.8}
+            s_{lp}^{3.7}
+        }
+        B_3
+    }
+\label{FleerFactor}
+\end{equation}
+
+and this is the number of possible loops for all phantom bonds of the surface,
+
+\begin{equation}
+    \lr{
+        \frac{
+            \mu_3^{
+                s_{lp}
+            }
+        }{
+            s_{lp}^{3.7}
         }
         B_3
     }
@@ -678,7 +813,10 @@ as well as the Fleer Factor,
 \label{FleerFactor}
 \end{equation}
 
-Putting the above factors together into an expression for the loops, we have $q_{lp}$ which is, the number of ways to configure a loop of that size in a three dimensional cubic lattice.
+Putting the above factors together
+% \textcolor{red}{(Missing: the concept of linkage at the point of the "shadow" chain *version 2 of note from meeting)}
+into an expression for the loops, we have $q_{lp}$ which is, the number of ways to configure a loop of that size in a three dimensional cubic lattice.
+
 
 \begin{equation}
     q_{lp}
@@ -699,7 +837,7 @@ Putting the above factors together into an expression for the loops, we have $q_
                         s_{lp}
                     }
                 }{
-                    s_{lp}^{2.8}
+                    s_{lp}^{3.7}
                 }
                 B_3
             }
@@ -733,7 +871,7 @@ We get the following generalized partition function for the whole system based o
 	=
 	n!
 	\left(
-	    G(n_a)
+	    \fop(n_a)
 	    ~
 	    q_{lp}^{n_a}
 	    ~
@@ -749,7 +887,9 @@ We get the following generalized partition function for the whole system based o
 \end{equation}
 
 
-You will notice that notationally, anything that is dependant on $n_a$ we shall increment by one \textcolor{red}{(one what?)}. For the convenience of the reader, we use the below notation.
+You will notice that notationally, anything that is dependant on $n_a$ we shall increment by one 
+% \textcolor{red}{(one what?)}. 
+For the convenience of the reader, we use the below notation.
 
 \begin{table}[H]
 \begin{center}
@@ -757,7 +897,7 @@ You will notice that notationally, anything that is dependant on $n_a$ we shall 
     \hline
     Function  & Representation & Representation\\ $f(x)$ & of $f(n_a)$ & of $f(n_a+1)$  \\
     \hline\hline
-    $G(n_a)$ & $G$  &  $G^{*}$\\  
+    $\fop(n_a)$ & $\fop$  &  $\fop^{*}$\\  
     \hline
     $q_{lp}(n_a)$ & $q_{lp}$  & $q_{lp}^{*}$\\
     \hline    
@@ -789,9 +929,9 @@ This gives us the following expression for
     }
 	\left(
 	    \frac{
-	        G^{*}
+	        \fop^{*}
 	    }{
-	        G
+	        \fop
 	    }
 	    ~
 	    \frac{
@@ -818,13 +958,13 @@ This gives us the following expression for
     	~
     	\frac{
     		\frac{
-    			n_{vol}^{n_{b}(n_a+1)}
+    			n_{vol}^{n_{b}^{*}}
     		}{
-    			n_b(n_a+1)!
+    			n_b^{*}!
     		}
 		}{	
     		\frac{
-    			n_{vol}^{n_{b}(n_a)}
+    			n_{vol}^{n_{b}}
     		}{
     			n_b!
     		}
@@ -903,9 +1043,9 @@ Using a similar manipulation of exponents as that of $n_{vol}$ we get the follow
 
 \begin{equation}
 \frac{
-    	    q_{vol}^{n_{b}(n_a+1)}
+    	    q_{vol}^{n_{b}^{*}}
     	}{
-    	    q_{vol}^{n_{b}(n_a)}
+    	    q_{vol}^{n_{b}}
 }
 =
 \frac{
@@ -939,9 +1079,9 @@ We then have,
 \begin{align}
 \label{eq. goverg}
 \frac{
-    G^{*}
+    \fop^{*}
 }{
-    G
+    \fop
 }
 &=
 \frac{
@@ -1014,7 +1154,7 @@ We then have,
 Where we assign the resulting expression from \ref{eq. goverg} to,
 
 \begin{equation}
-    R_{G}:=
+    R_{\fop}:=
     \frac{
                 \tilde{w}_{n_a+1}       
     }{ 
@@ -1086,7 +1226,7 @@ For the factor below we have,
 
 We further simplify the below expression,
 
-\textcolor{red}{(purposely didn't use $r-\leng$ here. Also could have just left in terms of $n_{lp}$ and $n_a$ and just simplified...)} 
+% \textcolor{red}{(purposely didn't use $r-\leng$ here. Also could have just left in terms of $n_{lp}$ and $n_a$ and just simplified...)} 
 
 \begin{align}
 n_{lp}(n_a+1)
@@ -1417,7 +1557,8 @@ log
 
 We let, 
 \begin{align}
-H&:=
+\schw_{lp}
+&:=
 log
 \lr{
 \facto{
@@ -1426,7 +1567,7 @@ log
     n_{lp}
 }
 }\\
-H^{*}
+\schw^{*}_{lp}
 &:=
 log
 \lr{
@@ -1438,7 +1579,11 @@ log
 }
 \end{align}
 
-Therefore $H$ is equal to,
+Therefore 
+$
+\schw_{lp}
+$ 
+is approximated to be,
 
 \begin{equation}
 \lrb{
@@ -1462,7 +1607,11 @@ Therefore $H$ is equal to,
 },
 \end{equation}
 
-and $H^*$ is equal to,
+and 
+$
+\schw^{*}_{lp}
+$ 
+is approximately,
 
 \begin{equation}
 \lrb{
@@ -1490,14 +1639,14 @@ We then can say that Equation \ref{eq.LogRvol1} becomes,
 \begin{align}
 log
 \lr{
-    R_{vol}
+    R_{lp}
 }
 &=
 \lr{n_a+1}   
-H^{*}
+\schw^{*}
 -
 \lr{n_a}
-H
+\schw
 +
 \lr{
     \frac{
