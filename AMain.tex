@@ -1163,6 +1163,49 @@ Where we assign the resulting expression from \ref{eq. goverg} to,
    \label{Eq: RG}
 \end{equation}
 
+Where,
+
+\begin{equation}
+   \tilde{w}_{n_a+1} 
+   =
+   \frac{
+        [
+            n_{surf}
+            -
+            n_a
+            \leng
+        ]
+        !
+   }{
+        [
+            n_{surf}
+            -
+        (n_a+1)
+        \leng
+        ]
+        !
+   }   
+    n_{surf}
+   \frac{
+        \lambda
+   }{
+        (\lambda-1)^2
+   }
+   \left(
+        \frac{
+            \lambda
+            -
+            1
+        }{
+            n_{surf}
+        }
+    \right)
+    ^{
+            \leng
+    }.
+    \label{wk2supp}
+\end{equation}
+
 For the factor below we have, 
 %my understanding here is we will leave the simplification to be done by the logarithm. Except if the $n_{lp}\cdot n_a$, reduces to something nicer.
 %we will leave this expression as is given it's complexity, and have it simplified when we take the logarithmic and stirling approximations for the factorials.
@@ -1353,7 +1396,7 @@ Combining the above results back into Equation \ref{Eq: RatQ}
         Q
     }
     =
-    R_{G}
+    R_{\fop}
     \times
     R_{lp}
     \times
@@ -1393,7 +1436,7 @@ This means that,
     \Delta Q_{log}    
     =
     log\lr{
-        R_{G}
+        R_{\fop}
     }
     +
     log\lr{
@@ -1410,7 +1453,7 @@ where,
 \begin{align}
     log
     \lr{
-    R_{G}
+    R_{\fop}
     }
     &=
     log
@@ -1432,6 +1475,67 @@ where,
         (n_a+1)
     }    
    \label{Eq: logRG}
+\end{align}
+
+Where we have that 
+$
+\log
+\lrb{
+   \tilde{w}_{n_a+1} 
+}
+$
+is,
+
+\begin{align}
+   Stirl
+   \lrb{
+        n_{surf}
+        -
+        n_a
+        \leng
+    }
+    -
+    Stirl
+    \lrb{
+            n_{surf}
+            -
+        (n_a+1)
+        \leng
+   }
+   &+
+   \log
+   \lrb{
+    n_{surf}
+    }
+    +
+    \log
+   \lrb{
+        \lambda
+   }\nonumber\\
+   &
+   -
+   2
+   \log
+   \lrb{
+        (\lambda-1)
+   }
+   +
+   \leng
+   \left(
+    \log
+    \lrb{
+            \lambda
+            -
+            1
+    }
+    -
+    \log
+    \lrb{
+            n_{surf}
+        }
+    \right)
+    .
+    \label{wk2logsupp}
 \end{align}
 
 \begin{align}
@@ -1586,6 +1690,30 @@ $
 is approximated to be,
 
 \begin{equation}
+    Stirl{
+        \lrb{
+            \leng
+        }
+    }
+-
+    Stirl{
+        \lrb{
+            n_{lp}
+        }
+    }
+-
+    Stirl{
+        \lrb{
+            \leng
+            -
+            n_{lp}
+        }
+    }
+\end{equation}
+
+the expansion is,
+
+\begin{equation}
 \lrb{
     \stirl{
         \leng
@@ -1614,11 +1742,36 @@ $
 is approximately,
 
 \begin{equation}
+    Stirl{
+        \lrb{
+            \leng^{*}
+        }
+    }
+-
+    Stirl{
+        \lrb{
+            n_{lp}^{*}
+        }
+    }
+-
+    Stirl{
+        \lrb{
+            \leng^{*}
+            -
+            n_{lp}^{*}
+        }
+    }
+\end{equation}
+
+the expansion is,
+
+\begin{equation}
 \lrb{
     \stirl{
         \leng^{*}
     }
 }
+-
 \lrb{
     \stirl{
         n_{lp}^{*}
@@ -1666,7 +1819,7 @@ log
     B_3
     }            
     -
-    \lr{2.8}
+    \lr{3.7}
     log
     \lr{
         s_{lp}
